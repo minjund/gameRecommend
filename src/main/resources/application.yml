@@ -1,0 +1,25 @@
+server:
+  port: 8084
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/gameRecommend
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+#steam:
+#    api:
+#      key: B13B650A477950A52E089600C57EB17C
+#      url: https://api.steampowered.com
+
+logging:
+  level:
+    org.hibernate.SQL: debug
