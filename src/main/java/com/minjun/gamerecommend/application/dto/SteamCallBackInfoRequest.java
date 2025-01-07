@@ -1,4 +1,4 @@
-package com.minjun.gamerecommend.domain.steam.dto;
+package com.minjun.gamerecommend.application.dto;
 
 /**
  * openid.ns: http://specs.openid.net/auth/2.0
