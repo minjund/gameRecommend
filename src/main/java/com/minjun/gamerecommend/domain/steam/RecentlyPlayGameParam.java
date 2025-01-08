@@ -1,4 +1,4 @@
-package com.minjun.gamerecommend.domain.steam.dto;
+package com.minjun.gamerecommend.domain.steam;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

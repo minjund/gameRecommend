@@ -1,9 +1,11 @@
 package com.minjun.gamerecommend.domain.steam;
 
-import com.minjun.gamerecommend.domain.steam.dto.RecentlyPlayGameParam;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class SteamApiCaller {
@@ -50,5 +52,27 @@ public class SteamApiCaller {
                 .header("Content-Type", "application/json")
                 .retrieve()
                 .toEntity(RecentlyPlayGameParam.class).getBody();
+    }
+
+    public FavoriteGameInfoParam callGameDetail(String gameId){
+        String steamApiUrl= "https://steamspy.com/api.php";
+
+        RestClient restClient = RestClient.builder()
+                .baseUrl(steamApiUrl)
+                .build();
+
+        ResponseEntity<Map> entity = restClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/")
+                        .queryParam("request", "appdetails")
+                        .queryParam("appid", gameId)
+                        .build())
+                .header("Content-Type", "application/json")
+                .retrieve()
+                .toEntity(Map.class);
+
+        System.out.println(entity);
+
+        return null;
     }
 }

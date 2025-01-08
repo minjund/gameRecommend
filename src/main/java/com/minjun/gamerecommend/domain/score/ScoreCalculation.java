@@ -9,9 +9,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ScoreCalculation {
+    public int recentlyGameScore(List<HashMap<String, String>> games) {
 
-
-    public void recentlyGameScore(List<HashMap<String, String>> games) {
-
+        return 0;
     }
 }
