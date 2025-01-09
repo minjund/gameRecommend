@@ -4,8 +4,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class SteamApiCaller {
@@ -54,25 +55,31 @@ public class SteamApiCaller {
                 .toEntity(RecentlyPlayGameParam.class).getBody();
     }
 
-    public FavoriteGameInfoParam callGameDetail(String gameId){
+    public List<GameDetailParam> callGameDetailByGameList(List<HashMap<String, String>> games){
+        List<GameDetailParam> gameDetailParamList = new ArrayList<>();
+
+        games.forEach(game -> {
+            gameDetailParamList.add(callGameDetailByAppId(game.get("appid")).createGameDetailParam());
+        });
+
+        return gameDetailParamList;
+    }
+
+    private GameDetailParam callGameDetailByAppId(String appId){
         String steamApiUrl= "https://steamspy.com/api.php";
 
         RestClient restClient = RestClient.builder()
                 .baseUrl(steamApiUrl)
                 .build();
 
-        ResponseEntity<Map> entity = restClient.get()
+        return restClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/")
                         .queryParam("request", "appdetails")
-                        .queryParam("appid", gameId)
+                        .queryParam("appid", appId)
                         .build())
                 .header("Content-Type", "application/json")
                 .retrieve()
-                .toEntity(Map.class);
-
-        System.out.println(entity);
-
-        return null;
+                .toEntity(GameDetailParam.class).getBody();
     }
 }
