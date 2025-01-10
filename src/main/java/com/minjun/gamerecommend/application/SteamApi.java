@@ -1,6 +1,6 @@
 package com.minjun.gamerecommend.application;
 
-import com.minjun.gamerecommend.service.SteamService;
+import com.minjun.gamerecommend.service.game.GameService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/steam")
 public class SteamApi {
 
-    private final SteamService steamService;
+    private final GameService gameService;
 
     @GetMapping("/login")
     public ResponseEntity<String> steamLoginForm(){
-        return steamService.callSteamLoginApi();
+        return gameService.callSteamLoginApi();
     }
 
     @GetMapping("/login-callback")
@@ -41,7 +41,7 @@ public class SteamApi {
         // 모나와 테스트 계정
         String testUserId = "76561198191923705";
 
-        steamService.findRecentlyPlayedGameByUserId(testUserId);
+        gameService.findRecentlyPlayedGameByUserId(testUserId);
 
     }
 }

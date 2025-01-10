@@ -1,17 +1,20 @@
-package com.minjun.gamerecommend.domain.steam;
+package com.minjun.gamerecommend.domain.game;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.Objects;
 
 @Service
-public class SteamApiCaller {
+public class SteamApiDao {
 
     String steamApiKey = "B13B650A477950A52E089600C57EB17C";
+
+    public record RecentlyPlayGameResult(@JsonProperty("response")
+                                         RecentlyPlayGame response) {
+    }
 
     public ResponseEntity<String> callSteamLoginForm(){
         String steamApiUrl= "https://steamcommunity.com/openid/login";
@@ -37,14 +40,14 @@ public class SteamApiCaller {
     }
 
 
-    public RecentlyPlayGameParam callRecentlyPlayedGameByUserId(String userId) {
+    public RecentlyPlayGame callRecentlyPlayedGameByUserId(String userId) {
         String steamApiUrl= "https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v1";
 
         RestClient restClient = RestClient.builder()
                 .baseUrl(steamApiUrl)
                 .build();
 
-        return restClient.get()
+        return Objects.requireNonNull(restClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/")
                         .queryParam("key", steamApiKey)
@@ -52,20 +55,10 @@ public class SteamApiCaller {
                         .build())
                 .header("Content-Type", "application/json")
                 .retrieve()
-                .toEntity(RecentlyPlayGameParam.class).getBody();
+                .toEntity(RecentlyPlayGameResult.class).getBody()).response;
     }
 
-    public List<GameDetailParam> callGameDetailByGameList(List<HashMap<String, String>> games){
-        List<GameDetailParam> gameDetailParamList = new ArrayList<>();
-
-        games.forEach(game -> {
-            gameDetailParamList.add(callGameDetailByAppId(game.get("appid")).createGameDetailParam());
-        });
-
-        return gameDetailParamList;
-    }
-
-    private GameDetailParam callGameDetailByAppId(String appId){
+    public GameDetail callGameDetailByAppId(String appId){
         String steamApiUrl= "https://steamspy.com/api.php";
 
         RestClient restClient = RestClient.builder()
@@ -80,6 +73,6 @@ public class SteamApiCaller {
                         .build())
                 .header("Content-Type", "application/json")
                 .retrieve()
-                .toEntity(GameDetailParam.class).getBody();
+                .toEntity(GameDetail.class).getBody();
     }
 }
