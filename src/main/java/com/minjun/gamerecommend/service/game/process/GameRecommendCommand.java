@@ -24,9 +24,7 @@ public class GameRecommendCommand {
                                 .tagids_must_match(List.of(new Query.Filters.TagIds(
                                         tagIdList.getFirst()  // 첫 번째 리스트를 사용
                                 )))
-                                .tagids_exclude(List.of(new Query.Filters.TagIds(
-                                        tagIdList.get(1)  // 첫 번째 리스트를 사용
-                                )))
+                                .tagids_exclude(tagIdList.get(1))
                                 .build())
                         .build())
                 .context(Context.builder()
@@ -50,7 +48,7 @@ public class GameRecommendCommand {
             private boolean released_only;
             private TypeFilters type_filters;
             private List<TagIds> tagids_must_match;
-            private List<TagIds> tagids_exclude;
+            private List<String> tagids_exclude;
 
             @Getter
             @Builder

@@ -3,6 +3,7 @@ package com.minjun.gamerecommend.service.game.process;
 import com.minjun.gamerecommend.domain.game.GameDetail;
 import com.minjun.gamerecommend.domain.SteamApiCaller;
 import com.minjun.gamerecommend.domain.game.RecentlyPlayGame;
+import com.minjun.gamerecommend.domain.game.RecommendGame;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import static com.minjun.gamerecommend.global.util.ObjectToJson.*;
 
 @Service
 @RequiredArgsConstructor
@@ -37,8 +39,10 @@ public class GameFinder {
         return GameDetailInfo.create(gameDetailParamList);
     }
 
-    public void findFiveGameTagFilter(GameRecommendCommand gameRecommendCommand) {
-        steamApiCaller.callFiveGameByTag(gameRecommendCommand);
-        return;
+    public List<HashMap<String , Integer>> findFiveGameTagFilter(GameRecommendCommand gameRecommendCommand) {
+        String gameRecommendCommandToString = convert(gameRecommendCommand);
+        RecommendGame recommendGame = steamApiCaller.callFiveGameByTag(gameRecommendCommandToString);
+
+        return recommendGame.ids();
     }
 }

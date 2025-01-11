@@ -28,9 +28,7 @@ public class ScoreCalculation {
                 }
             }
         }
-        System.out.println("tagCountMap: " + tagCountMap);
 
-        // 최종 점수 반환
         return tagCountMap;
     }
 }
