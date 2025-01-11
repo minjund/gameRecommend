@@ -73,24 +73,24 @@ public class GameRecommendCommand {
         private String steam_realm;
     }
 
-//    @Getter
-//    @Builder
-//    public static class DataRequest {
-//        private boolean includeAssets;
-//        private boolean includeRelease;
-//        private boolean includePlatforms;
-//        private boolean includeAllPurchaseOptions;
-//        private boolean includeScreenshots;
-//        private boolean includeTrailers;
-//        private boolean includeRatings;
-//        private String includeTagCount;
-//        private boolean includeReviews;
-//        private boolean includeBasicInfo;
-//        private boolean includeSupportedLanguages;
-//        private boolean includeFullDescription;
-//        private boolean includeIncludedItems;
-//        private boolean includeAssetsWithoutOverrides;
-//        private boolean applyUserFilters;
-//        private boolean includeLinks;
-//    }
+    @Getter
+    @Builder
+    public static class DataRequest {
+        private boolean includeAssets;
+        private boolean includeRelease;
+        private boolean includePlatforms;
+        private boolean includeAllPurchaseOptions;
+        private boolean includeScreenshots;
+        private boolean includeTrailers;
+        private boolean includeRatings;
+        private String includeTagCount;
+        private boolean includeReviews;
+        private boolean includeBasicInfo;
+        private boolean includeSupportedLanguages;
+        private boolean includeFullDescription;
+        private boolean includeIncludedItems;
+        private boolean includeAssetsWithoutOverrides;
+        private boolean applyUserFilters;
+        private boolean includeLinks;
+    }
 }
