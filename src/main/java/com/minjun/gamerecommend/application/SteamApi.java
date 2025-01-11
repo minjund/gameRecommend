@@ -37,9 +37,10 @@ public class SteamApi {
 
     @GetMapping("/recently-played-games")
     public void RecentlyPlayedGame(@RequestParam String userId){
-
+//내꺼
+//        String testUserId = "76561198191923705";
         // 모나와 테스트 계정
-        String testUserId = "76561198191923705";
+        String testUserId = "76561198100860589";
 
         gameService.findRecentlyPlayedGameByUserId(testUserId);
 

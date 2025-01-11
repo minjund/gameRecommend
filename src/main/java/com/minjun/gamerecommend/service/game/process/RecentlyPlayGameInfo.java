@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public record RecentlyPlayGameInfo(Integer totalCount, List<HashMap<String,String>> games) {
-    public static RecentlyPlayGameInfo toInfo(RecentlyPlayGame recentlyPlayGame) {
+    public static RecentlyPlayGameInfo from(RecentlyPlayGame recentlyPlayGame) {
         return new RecentlyPlayGameInfo(recentlyPlayGame.totalCount(), recentlyPlayGame.games());
     }
 }
