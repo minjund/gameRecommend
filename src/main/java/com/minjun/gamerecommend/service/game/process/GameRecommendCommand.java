@@ -15,7 +15,7 @@ public class GameRecommendCommand {
     public static GameRecommendCommand createGameRecommendCommand(List<List<String>> tagIdList) {
         return GameRecommendCommand.builder()
                 .query(Query.builder()
-                        .count("5")
+                        .count("8")
                         .filters(Query.Filters.builder()
                                 .released_only(true)
                                 .type_filters(Query.Filters.TypeFilters.builder()
@@ -31,7 +31,6 @@ public class GameRecommendCommand {
                         .language("en")
                         .elanguage("en")
                         .country_code("KR")
-                        .steam_realm("1")
                         .build())
                 .build();
     }
@@ -70,7 +69,7 @@ public class GameRecommendCommand {
         private String language;
         private String elanguage;
         private String country_code;
-        private String steam_realm;
+//        private String steam_realm;
     }
 
     @Getter
