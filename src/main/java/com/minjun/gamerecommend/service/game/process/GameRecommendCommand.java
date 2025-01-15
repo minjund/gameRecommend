@@ -16,6 +16,7 @@ public class GameRecommendCommand {
         return GameRecommendCommand.builder()
                 .query(Query.builder()
                         .count("8")
+                        .sort("12")
                         .filters(Query.Filters.builder()
                                 .released_only(true)
                                 .type_filters(Query.Filters.TypeFilters.builder()
@@ -40,6 +41,7 @@ public class GameRecommendCommand {
     public static class Query {
         private String count;
         private Filters filters;
+        private String sort;
 
         @Getter
         @Builder

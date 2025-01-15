@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/steam")
@@ -36,13 +39,13 @@ public class SteamApi {
     }
 
     @GetMapping("/recently-played-games")
-    public void RecentlyPlayedGame(@RequestParam String userId){
-//내꺼
-//        String testUserId = "76561198191923705";
+    public ResponseEntity<List<HashMap<String, Integer>>> RecentlyPlayedGame(@RequestParam String userId){
+        //내꺼
+        String testUserId = "76561198191923705";
+
         // 모나와 테스트 계정
-        String testUserId = "76561198100860589";
+//        String testUserId = "76561198100860589";
 
-        gameService.findRecentlyPlayedGameByUserId(testUserId);
-
+        return ResponseEntity.ok(gameService.findRecentlyPlayedGameByUserId(testUserId));
     }
 }

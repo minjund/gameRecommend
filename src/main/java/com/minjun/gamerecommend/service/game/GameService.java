@@ -25,7 +25,7 @@ public class GameService {
         return gameFinder.callSteamLoginForm();
     }
 
-    public void findRecentlyPlayedGameByUserId(String userId){
+    public List<HashMap<String, Integer>> findRecentlyPlayedGameByUserId(String userId){
         RecentlyPlayGameInfo recentlyPlayGameInfo = gameFinder.findGameRecentlyPlay(userId);
 
         // FIXME: api 호출 할 때 너무 오래 걸려서 수정 필요
@@ -41,8 +41,7 @@ public class GameService {
         List<List<String>> tagIdList = gameTagMatch.matchTagIdList(scoreTagInfo, tagList);
 
         GameRecommendCommand gameRecommendCommand = GameRecommendCommand.createGameRecommendCommand(tagIdList);
-        List<HashMap<String, Integer>> fiveGameTagFilter = gameFinder.findFiveGameTagFilter(gameRecommendCommand);
 
-        System.out.println(fiveGameTagFilter);
+        return gameFinder.findFiveGameTagFilter(gameRecommendCommand);
     }
 }
