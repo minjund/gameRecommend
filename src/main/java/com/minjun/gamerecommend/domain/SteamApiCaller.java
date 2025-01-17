@@ -1,11 +1,8 @@
 package com.minjun.gamerecommend.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.minjun.gamerecommend.domain.game.GameDetail;
-import com.minjun.gamerecommend.domain.game.GameTag;
-import com.minjun.gamerecommend.domain.game.RecentlyPlayGame;
-import com.minjun.gamerecommend.domain.game.RecommendGame;
-import org.springframework.http.ResponseEntity;
+import com.minjun.gamerecommend.domain.game.*;
+import com.minjun.gamerecommend.domain.user.UserResult;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -17,31 +14,31 @@ import java.util.Optional;
 @Service
 public class SteamApiCaller {
     private static final String steamApiKey = "B13B650A477950A52E089600C57EB17C";
-    public record RecentlyPlayGameResult(@JsonProperty("response") RecentlyPlayGame response) { }
-    public record GameTagListResult(@JsonProperty("response") GameTag response) { }
-    public record RecommendGameResult(@JsonProperty("response") RecommendGame response) { }
 
-    public ResponseEntity<String> callSteamLoginForm(){
-        String steamApiUrl= "https://steamcommunity.com/openid/login";
-        String returnUrl = "http://127.0.0.1:8084/api/v1/steam/login-info";
+
+    public record RecentlyPlayGameResult(@JsonProperty("response") RecentlyPlayGame response) { }
+    public record GameTagListResult(@JsonProperty("response") GameTagList response) { }
+    public record RecommendGameResult(@JsonProperty("response") RecommendGame response) { }
+    public record LoginUserResult(@JsonProperty("response") UserResult response) { }
+
+    public UserResult callSteamLoginDetail(String userId) {
+        String steamApiUrl= "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/";
 
         RestClient restClient = RestClient.builder()
                 .baseUrl(steamApiUrl)
                 .build();
 
-        return restClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/")
-                        .queryParam("openid.ns", "http://specs.openid.net/auth/2.0")
-                        .queryParam("openid.claimed_id", "http://specs.openid.net/auth/2.0/identifier_select")
-                        .queryParam("openid.identity", "http://specs.openid.net/auth/2.0/identifier_select")
-                        .queryParam("openid.return_to", returnUrl)
-                        .queryParam("openid.realm", "http://127.0.0.1:8084")
-                        .queryParam("openid.mode","checkid_setup")
-                        .build())
-                .header("Content-Type", "application/json")
-                .retrieve()
-                .toEntity(String.class);
+        return Optional.ofNullable(restClient.get()
+                        .uri(uriBuilder -> uriBuilder
+                                .path("/")
+                                .queryParam("key", steamApiKey)
+                                .queryParam("steamids", userId)
+                                .build())
+                        .header("Content-Type", "application/json")
+                        .retrieve()
+                        .toEntity(LoginUserResult.class).getBody())
+                .orElseGet(() -> new LoginUserResult(new UserResult(new ArrayList<>())))
+                .response();
     }
 
 
@@ -66,7 +63,8 @@ public class SteamApiCaller {
                 .response();
     }
 
-    public GameDetail callGameDetailByAppId(String appId){
+    // 게임 태그 조회
+    public GameDetailToTag callGameDetailToTagByAppId(String appId){
         String steamApiUrl= "https://steamspy.com/api.php";
 
         RestClient restClient = RestClient.builder()
@@ -81,11 +79,11 @@ public class SteamApiCaller {
                         .build())
                 .header("Content-Type", "application/json")
                 .retrieve()
-                .toEntity(GameDetail.class).getBody();
+                .toEntity(GameDetailToTag.class).getBody();
     }
 
 
-    public GameTag callTagList() {
+    public GameTagList callTagList() {
         String steamApiUrl= "https://api.steampowered.com/IStoreService/GetMostPopularTags/v1";
 
         RestClient restClient = RestClient.builder()
@@ -122,5 +120,22 @@ public class SteamApiCaller {
                         .toEntity(RecommendGameResult.class))
                 .orElseThrow(() -> new RuntimeException("게임 정보가 없습니다."))
                 .getBody()).response();
+    }
+
+    public GameDetail callGameDetailByAppId(Integer appId) {
+        String steamApiUrl= "https://store.steampowered.com/api/appdetails";
+
+        RestClient restClient = RestClient.builder()
+                .baseUrl(steamApiUrl)
+                .build();
+
+        return restClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/")
+                        .queryParam("appids", appId)
+                        .build())
+                .header("Content-Type", "application/json")
+                .retrieve()
+                .toEntity(GameDetail.class).getBody();
     }
 }
