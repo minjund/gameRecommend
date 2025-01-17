@@ -43,12 +43,14 @@ public class GameFinder {
     }
 
     public List<GameDetailInfo> findGameDetailByAppId(List<HashMap<String, Integer>> gameDetailList) {
+        List<GameDetailInfo> gameDetailToTagParamList = new ArrayList<>();
 
         gameDetailList.forEach(game -> {
             GameDetail appid = steamApiCaller.callGameDetailByAppId(game.get("appid"));
-            System.out.println(appid);
+            HashMap<String, Object> stringObjectHashMap = (HashMap<String, Object>) appid.gameDetail().get(String.valueOf(game.get("appid"))).get("data");
+            gameDetailToTagParamList.add(GameDetailInfo.from(stringObjectHashMap));
         });
 
-        return GameDetailInfo.from(null);
+        return gameDetailToTagParamList;
     }
 }

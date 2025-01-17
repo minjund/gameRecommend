@@ -7,9 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class SteamApiCaller {
@@ -128,14 +126,15 @@ public class SteamApiCaller {
         RestClient restClient = RestClient.builder()
                 .baseUrl(steamApiUrl)
                 .build();
-
-        return restClient.get()
+        Map appids = restClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/")
                         .queryParam("appids", appId)
                         .build())
                 .header("Content-Type", "application/json")
                 .retrieve()
-                .toEntity(GameDetail.class).getBody();
+                .toEntity(Map.class).getBody();
+
+        return GameDetail.from(appids);
     }
 }
