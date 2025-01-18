@@ -99,7 +99,7 @@ public class SteamApiCaller {
                 .response();
     }
 
-    public RecommendGame callFiveGameByTag(String gameRecommendCommandToString){
+    public RecommendGame callGameListByTag(String gameRecommendCommandToString){
         String steamApiUrl= "https://api.steampowered.com";
         RestClient restClient = RestClient.builder()
                 .baseUrl(steamApiUrl)
@@ -130,6 +130,7 @@ public class SteamApiCaller {
                 .uri(uriBuilder -> uriBuilder
                         .path("/")
                         .queryParam("appids", appId)
+                        .queryParam("l", "korean")
                         .build())
                 .header("Content-Type", "application/json")
                 .retrieve()

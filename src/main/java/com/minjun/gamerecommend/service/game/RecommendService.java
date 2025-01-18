@@ -38,8 +38,8 @@ public class RecommendService {
 
         // 추천 된 게임 리스트
         GameRecommendCommand gameRecommendCommand = GameRecommendCommand.createGameRecommendCommand(tagIdList);
-        List<HashMap<String, Integer>> eightGameTag = gameFinder.findEightGameTagFilter(gameRecommendCommand);
+        List<HashMap<String, Integer>> gameListTagFilter = gameFinder.findGameListTagFilter(gameRecommendCommand);
 
-        return gameFinder.findGameDetailByAppId(eightGameTag);
+        return gameFinder.findGameDetailByAppId(gameListTagFilter);
     }
 }

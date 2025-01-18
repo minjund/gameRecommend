@@ -35,9 +35,9 @@ public class GameFinder {
         return GameDetailTagInfo.create(gameDetailToTagParamList);
     }
 
-    public List<HashMap<String , Integer>> findEightGameTagFilter(GameRecommendCommand gameRecommendCommand) {
+    public List<HashMap<String , Integer>> findGameListTagFilter(GameRecommendCommand gameRecommendCommand) {
         String gameRecommendCommandToString = convert(gameRecommendCommand);
-        RecommendGame recommendGame = steamApiCaller.callFiveGameByTag(gameRecommendCommandToString);
+        RecommendGame recommendGame = steamApiCaller.callGameListByTag(gameRecommendCommandToString);
 
         return recommendGame.ids();
     }
