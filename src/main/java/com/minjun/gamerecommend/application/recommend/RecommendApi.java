@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -21,5 +20,12 @@ public class RecommendApi {
         List<GameDetailInfo> recentlyPlayedGameByUserId = recommendService.findRecentlyPlayedGameByUserId(userId);
 
         return ResponseEntity.ok(recentlyPlayedGameByUserId);
+    }
+
+    @GetMapping("/detail")
+    public ResponseEntity<?>  RecommendDetail(){
+        //TODO 상세보기 작업 필요
+
+        return ResponseEntity.ok().build();
     }
 }

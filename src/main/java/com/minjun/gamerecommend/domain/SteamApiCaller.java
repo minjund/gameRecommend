@@ -13,7 +13,6 @@ import java.util.*;
 public class SteamApiCaller {
     private static final String steamApiKey = "B13B650A477950A52E089600C57EB17C";
 
-
     public record RecentlyPlayGameResult(@JsonProperty("response") RecentlyPlayGame response) { }
     public record GameTagListResult(@JsonProperty("response") GameTagList response) { }
     public record RecommendGameResult(@JsonProperty("response") RecommendGame response) { }
@@ -22,9 +21,7 @@ public class SteamApiCaller {
     public UserResult callSteamLoginDetail(String userId) {
         String steamApiUrl= "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/";
 
-        RestClient restClient = RestClient.builder()
-                .baseUrl(steamApiUrl)
-                .build();
+        RestClient restClient = buildSteamApiUrl(steamApiUrl);
 
         return Optional.ofNullable(restClient.get()
                         .uri(uriBuilder -> uriBuilder
@@ -43,9 +40,7 @@ public class SteamApiCaller {
     public RecentlyPlayGame callRecentlyPlayedGameByUserId(String userId) {
         String steamApiUrl= "https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v1";
 
-        RestClient restClient = RestClient.builder()
-                .baseUrl(steamApiUrl)
-                .build();
+        RestClient restClient = buildSteamApiUrl(steamApiUrl);
 
 
         return Optional.ofNullable(restClient.get()
@@ -65,9 +60,7 @@ public class SteamApiCaller {
     public GameDetailToTag callGameDetailToTagByAppId(String appId){
         String steamApiUrl= "https://steamspy.com/api.php";
 
-        RestClient restClient = RestClient.builder()
-                .baseUrl(steamApiUrl)
-                .build();
+        RestClient restClient = buildSteamApiUrl(steamApiUrl);
 
         return restClient.get()
                 .uri(uriBuilder -> uriBuilder
@@ -84,9 +77,7 @@ public class SteamApiCaller {
     public GameTagList callTagList() {
         String steamApiUrl= "https://api.steampowered.com/IStoreService/GetMostPopularTags/v1";
 
-        RestClient restClient = RestClient.builder()
-                .baseUrl(steamApiUrl)
-                .build();
+        RestClient restClient = buildSteamApiUrl(steamApiUrl);
 
         return Optional.ofNullable(restClient.get()
                 .uri(uriBuilder -> uriBuilder
@@ -101,9 +92,7 @@ public class SteamApiCaller {
 
     public RecommendGame callGameListByTag(String gameRecommendCommandToString){
         String steamApiUrl= "https://api.steampowered.com";
-        RestClient restClient = RestClient.builder()
-                .baseUrl(steamApiUrl)
-                .build();
+        RestClient restClient = buildSteamApiUrl(steamApiUrl);
 
         return Objects.requireNonNull(Optional.of(restClient.get()
                         .uri(uriBuilder ->
@@ -123,9 +112,7 @@ public class SteamApiCaller {
     public GameDetail callGameDetailByAppId(Integer appId) {
         String steamApiUrl= "https://store.steampowered.com/api/appdetails";
 
-        RestClient restClient = RestClient.builder()
-                .baseUrl(steamApiUrl)
-                .build();
+        RestClient restClient = buildSteamApiUrl(steamApiUrl);
         Map appids = restClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/")
@@ -137,5 +124,28 @@ public class SteamApiCaller {
                 .toEntity(Map.class).getBody();
 
         return GameDetail.from(appids);
+    }
+
+    public Map callGameDetailReview(String appId){
+        String steamApiUrl= "https://store.steampowered.com/appreviews/";
+
+        RestClient restClient = buildSteamApiUrl(steamApiUrl);
+        return restClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/"+appId)
+                        .queryParam("json", "1")
+                        .queryParam("filter", "all")
+                        .queryParam("language", "koreana")
+                        .queryParam("purchase_type", "all")
+                        .build())
+                .header("Content-Type", "application/json")
+                .retrieve()
+                .toEntity(Map.class).getBody();
+    }
+
+    private RestClient buildSteamApiUrl(String steamApiUrl) {
+        return RestClient.builder()
+                .baseUrl(steamApiUrl)
+                .build();
     }
 }
