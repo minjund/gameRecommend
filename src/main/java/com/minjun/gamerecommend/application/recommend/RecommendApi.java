@@ -17,6 +17,11 @@ public class RecommendApi {
 
     @GetMapping("/recently-game")
     public ResponseEntity<List<GameDetailInfo>> RecentlyPlayedGame(@RequestParam String userId){
+        //내꺼
+//        String testUserId = "76561198191923705";
+        // 모나와 테스트 계정
+//        String testUserId = "76561198100860589";
+
         List<GameDetailInfo> recentlyPlayedGameByUserId = recommendService.findRecentlyPlayedGameByUserId(userId);
 
         return ResponseEntity.ok(recentlyPlayedGameByUserId);

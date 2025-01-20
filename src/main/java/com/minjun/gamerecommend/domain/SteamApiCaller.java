@@ -113,7 +113,7 @@ public class SteamApiCaller {
         String steamApiUrl= "https://store.steampowered.com/api/appdetails";
 
         RestClient restClient = buildSteamApiUrl(steamApiUrl);
-        Map appids = restClient.get()
+        Map resultGameDetail = Optional.of(Optional.ofNullable(restClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/")
                         .queryParam("appids", appId)
@@ -121,9 +121,9 @@ public class SteamApiCaller {
                         .build())
                 .header("Content-Type", "application/json")
                 .retrieve()
-                .toEntity(Map.class).getBody();
+                .toEntity(Map.class).getBody()).orElseGet(HashMap::new)).orElseGet(HashMap::new);
 
-        return GameDetail.from(appids);
+        return GameDetail.from(resultGameDetail);
     }
 
     public Map callGameDetailReview(String appId){

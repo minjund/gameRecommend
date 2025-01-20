@@ -47,6 +47,9 @@ public class GameFinder {
 
         gameDetailList.forEach(game -> {
             GameDetail appid = steamApiCaller.callGameDetailByAppId(game.get("appid"));
+            if (appid.gameDetail().isEmpty()) {
+                return;
+            }
             HashMap<String, Object> stringObjectHashMap = (HashMap<String, Object>) appid.gameDetail().get(String.valueOf(game.get("appid"))).get("data");
             gameDetailToTagParamList.add(GameDetailInfo.from(stringObjectHashMap));
         });

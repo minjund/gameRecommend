@@ -4,10 +4,11 @@ import com.minjun.gamerecommend.service.review.ReviewInfo;
 import lombok.Builder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Builder
-public record ReviewResponse(ArrayList<String> arrayResponse) {
+public record ReviewResponse(ArrayList<HashMap<String,Object>> arrayResponse) {
     public static ReviewResponse from(List<ReviewInfo> reviewList) {
         ReviewResponse response = new ReviewResponse(new ArrayList<>());
 

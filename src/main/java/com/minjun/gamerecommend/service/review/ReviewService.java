@@ -1,11 +1,9 @@
 package com.minjun.gamerecommend.service.review;
 
 import com.minjun.gamerecommend.domain.SteamApiCaller;
-import com.minjun.gamerecommend.domain.review.GameReviewResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
