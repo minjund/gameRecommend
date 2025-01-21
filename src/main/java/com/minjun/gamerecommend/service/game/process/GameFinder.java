@@ -20,8 +20,8 @@ public class GameFinder {
 
     private final SteamApiCaller steamApiCaller;
 
-    public RecentlyPlayGameInfo findGameRecentlyPlay(String userId) {
-        RecentlyPlayGame recentlyPlayGame = steamApiCaller.callRecentlyPlayedGameByUserId(userId);
+    public RecentlyPlayGameInfo findGameRecentlyPlay(RecentlyPlayGameCommand recentlyPlayGameCommand) {
+        RecentlyPlayGame recentlyPlayGame = steamApiCaller.callRecentlyPlayedGameByUserId(recentlyPlayGameCommand.userIdValue());
         return RecentlyPlayGameInfo.from(recentlyPlayGame);
     }
 

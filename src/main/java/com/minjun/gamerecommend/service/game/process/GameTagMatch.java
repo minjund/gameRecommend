@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.minjun.gamerecommend.global.util.Extractor.extractMaxValues;
 import static com.minjun.gamerecommend.global.util.Extractor.extractMinValues;

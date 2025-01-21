@@ -1,7 +1,6 @@
 package com.minjun.gamerecommend.service.recommend;
 
 import com.minjun.gamerecommend.service.game.process.*;
-import com.minjun.gamerecommend.service.recommend.process.*;
 import com.minjun.gamerecommend.service.score.process.ScoreCalculationTagInfo;
 import com.minjun.gamerecommend.service.score.process.ScoreCalculation;
 import lombok.RequiredArgsConstructor;
