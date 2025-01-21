@@ -1,6 +1,7 @@
 package com.minjun.gamerecommend.application.recommend;
 
-import com.minjun.gamerecommend.service.game.RecommendService;
+import com.minjun.gamerecommend.service.recommend.RecommendRecentlyInfo;
+import com.minjun.gamerecommend.service.recommend.RecommendService;
 import com.minjun.gamerecommend.service.game.process.GameDetailInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +22,9 @@ public class RecommendApi {
 //        String testUserId = "76561198191923705";
         // 모나와 테스트 계정
 //        String testUserId = "76561198100860589";
+        RecommendRecentlyInfo recommendRecentlyInfo = RecommendRecentlyInfo.from(userId);
 
-        List<GameDetailInfo> recentlyPlayedGameByUserId = recommendService.findRecentlyPlayedGameByUserId(userId);
+        List<GameDetailInfo> recentlyPlayedGameByUserId = recommendService.findRecentlyPlayedGameByUserId(recommendRecentlyInfo);
 
         return ResponseEntity.ok(recentlyPlayedGameByUserId);
     }

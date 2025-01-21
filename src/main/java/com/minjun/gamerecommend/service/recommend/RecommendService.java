@@ -1,6 +1,7 @@
-package com.minjun.gamerecommend.service.game;
+package com.minjun.gamerecommend.service.recommend;
 
 import com.minjun.gamerecommend.service.game.process.*;
+import com.minjun.gamerecommend.service.recommend.process.*;
 import com.minjun.gamerecommend.service.score.process.ScoreCalculationTagInfo;
 import com.minjun.gamerecommend.service.score.process.ScoreCalculation;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +19,10 @@ public class RecommendService {
     private final GameTagFinder gameTagFinder;
     private final GameTagMatch gameTagMatch;
 
-    public List<GameDetailInfo> findRecentlyPlayedGameByUserId(String userId){
-        RecentlyPlayGameInfo recentlyPlayGameInfo = gameFinder.findGameRecentlyPlay(userId);
+    public List<GameDetailInfo> findRecentlyPlayedGameByUserId(RecommendRecentlyInfo recommendRecentlyInfo){
+
+        RecentlyPlayGameCommand recentlyPlayGameCommand = new RecentlyPlayGameCommand(recommendRecentlyInfo.userId());
+        RecentlyPlayGameInfo recentlyPlayGameInfo = gameFinder.findGameRecentlyPlay(recentlyPlayGameCommand);
 
         // FIXME: api 호출 할 때 너무 오래 걸려서 수정 필요
         List<GameDetailTagInfo> gameDetailTagInfoList = gameFinder.findGameDetailToTagByAppId(recentlyPlayGameInfo.games());
