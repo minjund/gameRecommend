@@ -19,7 +19,7 @@ public class SteamApiCaller {
     public record LoginUserResult(@JsonProperty("response") UserResult response) { }
 
     public UserResult callSteamLoginDetail(String userId) {
-        String steamApiUrl= "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/";
+        String steamApiUrl= "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/";
 
         RestClient restClient = buildSteamApiUrl(steamApiUrl);
 
