@@ -11,7 +11,7 @@ import java.util.*;
 
 @Service
 public class SteamApiCaller {
-    private static final String steamApiKey = "B13B650A477950A52E089600C57EB17C";
+    private static final String steamApiKey = "489DB338ED4D87FA560F11BC5B4B5986";
 
     public record RecentlyPlayGameResult(@JsonProperty("response") RecentlyPlayGame response) { }
     public record GameTagListResult(@JsonProperty("response") GameTagList response) { }
@@ -58,7 +58,7 @@ public class SteamApiCaller {
 
     // 게임 태그 조회
     public GameDetailToTag callGameDetailToTagByAppId(String appId){
-        String steamApiUrl= "http://steamspy.com/api.php";
+        String steamApiUrl= "https://steamspy.com/api.php";
 
         RestClient restClient = buildSteamApiUrl(steamApiUrl);
 
@@ -110,7 +110,7 @@ public class SteamApiCaller {
     }
 
     public GameDetail callGameDetailByAppId(Integer appId) {
-        String steamApiUrl= "http://store.steampowered.com/api/appdetails";
+        String steamApiUrl= "https://store.steampowered.com/api/appdetails";
 
         RestClient restClient = buildSteamApiUrl(steamApiUrl);
         Map resultGameDetail = Optional.of(Optional.ofNullable(restClient.get()
@@ -127,7 +127,7 @@ public class SteamApiCaller {
     }
 
     public Map callGameDetailReview(String appId){
-        String steamApiUrl= "http://store.steampowered.com/appreviews/";
+        String steamApiUrl= "https://store.steampowered.com/appreviews/";
 
         RestClient restClient = buildSteamApiUrl(steamApiUrl);
         return restClient.get()
