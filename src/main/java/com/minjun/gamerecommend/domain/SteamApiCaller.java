@@ -38,7 +38,7 @@ public class SteamApiCaller {
 
 
     public RecentlyPlayGame callRecentlyPlayedGameByUserId(String userId) {
-        String steamApiUrl= "https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v1";
+        String steamApiUrl= "http://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v1";
 
         RestClient restClient = buildSteamApiUrl(steamApiUrl);
 
@@ -58,7 +58,7 @@ public class SteamApiCaller {
 
     // 게임 태그 조회
     public GameDetailToTag callGameDetailToTagByAppId(String appId){
-        String steamApiUrl= "https://steamspy.com/api.php";
+        String steamApiUrl= "http://steamspy.com/api.php";
 
         RestClient restClient = buildSteamApiUrl(steamApiUrl);
 
@@ -75,7 +75,7 @@ public class SteamApiCaller {
 
 
     public GameTagList callTagList() {
-        String steamApiUrl= "https://api.steampowered.com/IStoreService/GetMostPopularTags/v1";
+        String steamApiUrl= "http://api.steampowered.com/IStoreService/GetMostPopularTags/v1";
 
         RestClient restClient = buildSteamApiUrl(steamApiUrl);
 
@@ -91,7 +91,7 @@ public class SteamApiCaller {
     }
 
     public RecommendGame callGameListByTag(String gameRecommendCommandToString){
-        String steamApiUrl= "https://api.steampowered.com";
+        String steamApiUrl= "http://api.steampowered.com";
         RestClient restClient = buildSteamApiUrl(steamApiUrl);
 
         return Objects.requireNonNull(Optional.of(restClient.get()
@@ -110,7 +110,7 @@ public class SteamApiCaller {
     }
 
     public GameDetail callGameDetailByAppId(Integer appId) {
-        String steamApiUrl= "https://store.steampowered.com/api/appdetails";
+        String steamApiUrl= "http://store.steampowered.com/api/appdetails";
 
         RestClient restClient = buildSteamApiUrl(steamApiUrl);
         Map resultGameDetail = Optional.of(Optional.ofNullable(restClient.get()
@@ -127,7 +127,7 @@ public class SteamApiCaller {
     }
 
     public Map callGameDetailReview(String appId){
-        String steamApiUrl= "https://store.steampowered.com/appreviews/";
+        String steamApiUrl= "http://store.steampowered.com/appreviews/";
 
         RestClient restClient = buildSteamApiUrl(steamApiUrl);
         return restClient.get()
