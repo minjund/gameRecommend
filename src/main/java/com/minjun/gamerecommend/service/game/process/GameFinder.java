@@ -2,7 +2,7 @@ package com.minjun.gamerecommend.service.game.process;
 
 import com.minjun.gamerecommend.domain.game.GameDetail;
 import com.minjun.gamerecommend.domain.game.GameDetailToTag;
-import com.minjun.gamerecommend.domain.SteamApiCaller;
+import com.minjun.gamerecommend.global.infra.SteamApiCaller;
 import com.minjun.gamerecommend.domain.game.RecentlyPlayGame;
 import com.minjun.gamerecommend.domain.game.RecommendGame;
 import lombok.RequiredArgsConstructor;

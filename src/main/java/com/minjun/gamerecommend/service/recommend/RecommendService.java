@@ -23,7 +23,6 @@ public class RecommendService {
         RecentlyPlayGameCommand recentlyPlayGameCommand = new RecentlyPlayGameCommand(recommendRecentlyInfo.userId());
         RecentlyPlayGameInfo recentlyPlayGameInfo = gameFinder.findGameRecentlyPlay(recentlyPlayGameCommand);
 
-        // FIXME: api 호출 할 때 너무 오래 걸려서 수정 필요
         List<GameDetailTagInfo> gameDetailTagInfoList = gameFinder.findGameDetailToTagByAppId(recentlyPlayGameInfo.games());
 
         // 태그 정보 추출
@@ -42,6 +41,7 @@ public class RecommendService {
         GameRecommendCommand gameRecommendCommand = GameRecommendCommand.createGameRecommendCommand(tagIdList);
         List<HashMap<String, Integer>> gameListTagFilter = gameFinder.findGameListTagFilter(gameRecommendCommand);
 
-        return gameFinder.findGameDetailByAppId(gameListTagFilter);
+        List<GameDetailInfo> gameDetailByAppId = gameFinder.findGameDetailByAppId(gameListTagFilter);
+        return gameDetailByAppId;
     }
 }

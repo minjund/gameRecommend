@@ -1,6 +1,6 @@
 package com.minjun.gamerecommend.service.review;
 
-import com.minjun.gamerecommend.domain.SteamApiCaller;
+import com.minjun.gamerecommend.global.infra.SteamApiCaller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
