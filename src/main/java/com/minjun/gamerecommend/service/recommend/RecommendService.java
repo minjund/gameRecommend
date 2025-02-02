@@ -41,7 +41,6 @@ public class RecommendService {
         GameRecommendCommand gameRecommendCommand = GameRecommendCommand.createGameRecommendCommand(tagIdList);
         List<HashMap<String, Integer>> gameListTagFilter = gameFinder.findGameListTagFilter(gameRecommendCommand);
 
-        List<GameDetailInfo> gameDetailByAppId = gameFinder.findGameDetailByAppId(gameListTagFilter);
-        return gameDetailByAppId;
+        return gameFinder.findGameDetailByAppId(gameListTagFilter);
     }
 }
