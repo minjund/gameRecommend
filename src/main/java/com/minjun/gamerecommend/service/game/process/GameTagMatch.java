@@ -14,7 +14,7 @@ import static com.minjun.gamerecommend.global.util.Extractor.extractMinValues;
 @RequiredArgsConstructor
 public class GameTagMatch {
 
-    public List<List<String>> matchTagIdList(HashMap<String,Integer> scoreTagInfo, GameTagParam tagList) {
+    public List<List<String>> matchTagIdList(HashMap<String,Integer> scoreTagInfo, GameTagResult tagList) {
         List<String> highestTag = extractMaxValues(scoreTagInfo);
         List<String> lowestTag = extractMinValues(scoreTagInfo);
 

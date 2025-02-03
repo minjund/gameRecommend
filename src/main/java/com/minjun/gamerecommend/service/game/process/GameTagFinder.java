@@ -11,8 +11,8 @@ public class GameTagFinder {
 
     private final SteamApiCaller steamApiCaller;
 
-    public GameTagParam findTagList() {
+    public GameTagResult findTagList() {
         GameTagList gameTagList = steamApiCaller.callTagList();
-        return GameTagParam.from(gameTagList.tags());
+        return GameTagResult.from(gameTagList.tags());
     }
 }

@@ -8,12 +8,13 @@ import java.util.List;
 
 @Getter
 @Builder
-public class GameRecommendCommand {
+public class GameRecommendCondition {
     private Query query;
     private Context context;
+    private DataRequest data_request;
 
-    public static GameRecommendCommand createGameRecommendCommand(List<List<String>> tagIdList) {
-        return GameRecommendCommand.builder()
+    public static GameRecommendCondition create(List<List<String>> tagIdList) {
+        return GameRecommendCondition.builder()
                 .query(Query.builder()
                         .count("8")
                         .sort("12")
@@ -32,6 +33,9 @@ public class GameRecommendCommand {
                         .language("en")
                         .elanguage("en")
                         .country_code("KR")
+                        .build())
+                .data_request(DataRequest.builder()
+                        .include_basic_info(true)
                         .build())
                 .build();
     }
@@ -77,21 +81,6 @@ public class GameRecommendCommand {
     @Getter
     @Builder
     public static class DataRequest {
-        private boolean includeAssets;
-        private boolean includeRelease;
-        private boolean includePlatforms;
-        private boolean includeAllPurchaseOptions;
-        private boolean includeScreenshots;
-        private boolean includeTrailers;
-        private boolean includeRatings;
-        private String includeTagCount;
-        private boolean includeReviews;
-        private boolean includeBasicInfo;
-        private boolean includeSupportedLanguages;
-        private boolean includeFullDescription;
-        private boolean includeIncludedItems;
-        private boolean includeAssetsWithoutOverrides;
-        private boolean applyUserFilters;
-        private boolean includeLinks;
+        private boolean include_basic_info;
     }
 }

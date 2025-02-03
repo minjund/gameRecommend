@@ -1,10 +1,6 @@
 package com.minjun.gamerecommend.service.game.process;
 
-import com.minjun.gamerecommend.domain.game.GameDetail;
-import com.minjun.gamerecommend.domain.game.GameDetailToTag;
-import com.minjun.gamerecommend.global.infra.SteamApiCaller;
-import com.minjun.gamerecommend.domain.game.RecentlyPlayGame;
-import com.minjun.gamerecommend.domain.game.RecommendGame;
+import com.minjun.gamerecommend.domain.game.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +14,10 @@ import static com.minjun.gamerecommend.global.util.ObjectToJson.*;
 @RequiredArgsConstructor
 public class GameFinder {
 
-    private final SteamApiCaller steamApiCaller;
+    private final SteamGameExternal steamGameExternal;
 
-    public RecentlyPlayGameInfo findGameRecentlyPlay(RecentlyPlayGameCommand recentlyPlayGameCommand) {
-        RecentlyPlayGame recentlyPlayGame = steamApiCaller.callRecentlyPlayedGameByUserId(recentlyPlayGameCommand.userIdValue());
+    public RecentlyPlayGameInfo findGameRecentlyPlay(RecentlyPlayGameCondition recentlyPlayGameCommand) {
+        RecentlyPlayGame recentlyPlayGame = steamGameExternal.callRecentlyPlayedGameByUserId(recentlyPlayGameCommand.userIdValue());
         return RecentlyPlayGameInfo.from(recentlyPlayGame);
     }
 
@@ -29,24 +25,23 @@ public class GameFinder {
         List<GameDetailToTag> gameDetailToTagParamList = new ArrayList<>();
 
         gameDetailList.forEach(game -> {
-            gameDetailToTagParamList.add(steamApiCaller.callGameDetailToTagByAppId(game.get("appid")));
+            gameDetailToTagParamList.add(steamGameExternal.callGameDetailToTagByAppId(game.get("appid")));
         });
 
         return GameDetailTagInfo.create(gameDetailToTagParamList);
     }
 
-    public List<HashMap<String , Integer>> findGameListTagFilter(GameRecommendCommand gameRecommendCommand) {
-        String gameRecommendCommandToString = convert(gameRecommendCommand);
-        RecommendGame recommendGame = steamApiCaller.callGameListByTag(gameRecommendCommandToString);
-
-        return recommendGame.ids();
+    public RecommendGame findGameListTagFilter(GameRecommendCondition gameRecommendCondition) {
+        String gameRecommendCommandToString = convert(gameRecommendCondition);
+        return steamGameExternal.callGameListByTag(gameRecommendCommandToString);
     }
 
-    public List<GameDetailInfo> findGameDetailByAppId(List<HashMap<String, Integer>> gameDetailList) {
+    public List<GameDetailInfo> findGameDetailByAppId(RecommendGame gameDetailList) {
         List<GameDetailInfo> gameDetailToTagParamList = new ArrayList<>();
 
-        gameDetailList.forEach(game -> {
-            GameDetail appid = steamApiCaller.callGameDetailByAppId(game.get("appid"));
+        // FIXME : 2초 넘게 걸려요..
+        gameDetailList.gameList().forEach(game -> {
+            GameDetail appid = steamGameExternal.callGameDetailByAppId(game.get("appid"));
             if (appid.gameDetail().isEmpty()) {
                 return;
             }

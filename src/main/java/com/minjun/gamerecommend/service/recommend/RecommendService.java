@@ -1,5 +1,6 @@
 package com.minjun.gamerecommend.service.recommend;
 
+import com.minjun.gamerecommend.domain.game.RecommendGame;
 import com.minjun.gamerecommend.service.game.process.*;
 import com.minjun.gamerecommend.service.score.process.ScoreCalculationTagInfo;
 import com.minjun.gamerecommend.service.score.process.ScoreCalculation;
@@ -18,9 +19,8 @@ public class RecommendService {
     private final GameTagFinder gameTagFinder;
     private final GameTagMatch gameTagMatch;
 
-    public List<GameDetailInfo> findRecentlyPlayedGameByUserId(RecommendRecentlyInfo recommendRecentlyInfo){
-
-        RecentlyPlayGameCommand recentlyPlayGameCommand = new RecentlyPlayGameCommand(recommendRecentlyInfo.userId());
+    public RecommendGame findGameList(RecommendGameInfo recommendGameInfo){
+        RecentlyPlayGameCondition recentlyPlayGameCommand = new RecentlyPlayGameCondition(recommendGameInfo.userId());
         RecentlyPlayGameInfo recentlyPlayGameInfo = gameFinder.findGameRecentlyPlay(recentlyPlayGameCommand);
 
         List<GameDetailTagInfo> gameDetailTagInfoList = gameFinder.findGameDetailToTagByAppId(recentlyPlayGameInfo.games());
@@ -34,13 +34,18 @@ public class RecommendService {
         HashMap<String, Integer> scoreTagInfo = scoreCalculation.ScoreTagId(scoreCalculationTagInfoList);
 
         // 태그 리스트
-        GameTagParam tagList = gameTagFinder.findTagList();
+        GameTagResult tagList = gameTagFinder.findTagList();
         List<List<String>> tagIdList = gameTagMatch.matchTagIdList(scoreTagInfo, tagList);
 
         // 추천 된 게임 리스트
-        GameRecommendCommand gameRecommendCommand = GameRecommendCommand.createGameRecommendCommand(tagIdList);
-        List<HashMap<String, Integer>> gameListTagFilter = gameFinder.findGameListTagFilter(gameRecommendCommand);
+        GameRecommendCondition gameRecommendCondition = GameRecommendCondition.create(tagIdList);
 
-        return gameFinder.findGameDetailByAppId(gameListTagFilter);
+        return gameFinder.findGameListTagFilter(gameRecommendCondition);
+    }
+
+    public GameDetailInfo findGameDetail() {
+
+
+        return null;
     }
 }

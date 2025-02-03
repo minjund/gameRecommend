@@ -10,7 +10,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.*;
 
 @Service
-public class SteamApiCaller {
+public class SteamApiCaller implements SteamGameExternal {
     private static final String steamApiKey = "489DB338ED4D87FA560F11BC5B4B5986";
 
     public record RecentlyPlayGameResult(@JsonProperty("response") RecentlyPlayGame response) { }
@@ -18,6 +18,7 @@ public class SteamApiCaller {
     public record RecommendGameResult(@JsonProperty("response") RecommendGame response) { }
     public record LoginUserResult(@JsonProperty("response") UserResult response) { }
 
+    @Override
     public UserResult callSteamLoginDetail(String userId) {
         RestClient restClient = buildSteamApiUrl(SteamApiType.LOGIN_DETAIL);
 
@@ -35,6 +36,7 @@ public class SteamApiCaller {
     }
 
 
+    @Override
     public RecentlyPlayGame callRecentlyPlayedGameByUserId(String userId) {
         RestClient restClient = buildSteamApiUrl(SteamApiType.RECENTLY_PLAY_GAME);
 
@@ -52,6 +54,7 @@ public class SteamApiCaller {
     }
 
     // 게임 태그 조회
+    @Override
     public GameDetailToTag callGameDetailToTagByAppId(String appId){
         RestClient restClient = buildSteamApiUrl(SteamApiType.GAME_TO_TAG);
 
@@ -67,6 +70,7 @@ public class SteamApiCaller {
     }
 
 
+    @Override
     public GameTagList callTagList() {
         RestClient restClient = buildSteamApiUrl(SteamApiType.MOST_POPULAR_TAGS);
 
@@ -81,10 +85,11 @@ public class SteamApiCaller {
                 .response();
     }
 
+    @Override
     public RecommendGame callGameListByTag(String gameRecommendCommandToString){
         RestClient restClient = buildSteamApiUrl(SteamApiType.TAG_TO_GAME);
 
-        return Objects.requireNonNull(Optional.of(restClient.get()
+        RecommendGame response = Objects.requireNonNull(Optional.of(restClient.get()
                         .uri(uriBuilder ->
                                 UriComponentsBuilder
                                         .fromPath("/IStoreQueryService/Query/v1/") // 기본 URI 추가
@@ -97,8 +102,11 @@ public class SteamApiCaller {
                         .toEntity(RecommendGameResult.class))
                 .orElseThrow(() -> new RuntimeException("게임 정보가 없습니다."))
                 .getBody()).response();
+
+        return response;
     }
 
+    @Override
     public GameDetail callGameDetailByAppId(Integer appId) {
         RestClient restClient = buildSteamApiUrl(SteamApiType.GAME_DETAIL);
         Map resultGameDetail = Optional.of(Optional.ofNullable(restClient.get()
@@ -114,6 +122,7 @@ public class SteamApiCaller {
         return GameDetail.from(resultGameDetail);
     }
 
+    @Override
     public Map callGameDetailReview(String appId){
         RestClient restClient = buildSteamApiUrl(SteamApiType.GAME_REVIEW);
         return restClient.get()
@@ -129,7 +138,8 @@ public class SteamApiCaller {
                 .toEntity(Map.class).getBody();
     }
 
-    private RestClient buildSteamApiUrl(SteamApiType steamApiType) {
+    @Override
+    public RestClient buildSteamApiUrl(SteamApiType steamApiType) {
         return RestClient.builder()
                 .baseUrl(steamApiType.getUrl())
                 .build();
