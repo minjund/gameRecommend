@@ -20,6 +20,4 @@ public interface SteamGameExternal {
     GameDetail callGameDetailByAppId(Integer appId);
 
     Map callGameDetailReview(String appId);
-
-    RestClient buildSteamApiUrl(SteamApiType steamApiType);
 }

@@ -1,6 +1,7 @@
 package com.minjun.gamerecommend.service.game.process;
 
 import com.minjun.gamerecommend.domain.game.*;
+import com.minjun.gamerecommend.domain.tag.GameTags;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.minjun.gamerecommend.global.util.ObjectToJson.*;
+import static com.minjun.gamerecommend.global.util.ObjectToJson.convert;
 
 @Service
 @RequiredArgsConstructor
@@ -21,14 +22,14 @@ public class GameFinder {
         return RecentlyPlayGameInfo.from(recentlyPlayGame);
     }
 
-    public List<GameDetailTagInfo> findGameDetailToTagByAppId(List<HashMap<String,String>> gameDetailList) {
-        List<GameDetailToTag> gameDetailToTagParamList = new ArrayList<>();
-
-        gameDetailList.forEach(game -> {
-            gameDetailToTagParamList.add(steamGameExternal.callGameDetailToTagByAppId(game.get("appid")));
+    public List<GameTags> findGameDetailToTagByAppId(Games games) {
+        List<GameTags> gameTags = new ArrayList<>();
+        games.findIds().forEach(game -> {
+            GameDetailToTag gameDetailToTag = steamGameExternal.callGameDetailToTagByAppId(game);
+            gameTags.add(GameTags.of(gameDetailToTag.appId(), gameDetailToTag.tags()));
         });
 
-        return GameDetailTagInfo.create(gameDetailToTagParamList);
+        return gameTags;
     }
 
     public RecommendGame findGameListTagFilter(GameRecommendCondition gameRecommendCondition) {
@@ -41,7 +42,7 @@ public class GameFinder {
 
         // FIXME : 2초 넘게 걸려요..
         gameDetailList.gameList().forEach(game -> {
-            GameDetail appid = steamGameExternal.callGameDetailByAppId(game.get("appid"));
+            GameDetail appid = steamGameExternal.callGameDetailByAppId((Integer) game.get("appid"));
             if (appid.gameDetail().isEmpty()) {
                 return;
             }

@@ -1,7 +1,7 @@
-package com.minjun.gamerecommend.application.user;
+package com.minjun.gamerecommend.api.user;
 
-import com.minjun.gamerecommend.application.user.dto.SteamLoginCallBackRequest;
-import com.minjun.gamerecommend.application.user.dto.SteamLoginCallBackResponse;
+import com.minjun.gamerecommend.api.user.dto.SteamLoginCallBackRequest;
+import com.minjun.gamerecommend.api.user.dto.SteamLoginCallBackResponse;
 import com.minjun.gamerecommend.service.user.UserInfo;
 import com.minjun.gamerecommend.service.user.UserService;
 import lombok.RequiredArgsConstructor;

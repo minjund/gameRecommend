@@ -1,6 +1,6 @@
-package com.minjun.gamerecommend.application.reivew;
+package com.minjun.gamerecommend.api.reivew;
 
-import com.minjun.gamerecommend.application.reivew.dto.ReviewResponse;
+import com.minjun.gamerecommend.api.reivew.dto.ReviewResponse;
 import com.minjun.gamerecommend.service.review.ReviewInfo;
 import com.minjun.gamerecommend.service.review.ReviewService;
 import lombok.RequiredArgsConstructor;

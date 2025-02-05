@@ -1,4 +1,4 @@
-package com.minjun.gamerecommend.application.recommend;
+package com.minjun.gamerecommend.api.recommend;
 
 import com.minjun.gamerecommend.domain.game.RecommendGame;
 

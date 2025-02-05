@@ -14,15 +14,15 @@ import static com.minjun.gamerecommend.global.util.Extractor.extractMinValues;
 @RequiredArgsConstructor
 public class GameTagMatch {
 
-    public List<List<String>> matchTagIdList(HashMap<String,Integer> scoreTagInfo, GameTagResult tagList) {
-        List<String> highestTag = extractMaxValues(scoreTagInfo);
-        List<String> lowestTag = extractMinValues(scoreTagInfo);
+    public List<List<String>> matchTagIdList(ScoreCalculationTags scoreTagInfo, GameTagResult tagList) {
+        List<String> highestTag = extractMaxValues(scoreTagInfo.tag());
+        List<String> lowestTag = extractMinValues(scoreTagInfo.tag());
 
         List<List<String>> result = new ArrayList<>();
         List<String> highestTagList = new ArrayList<>();
         List<String> lowestTagList = new ArrayList<>();
 
-        for (HashMap<String, String> tag : tagList.tags()) {
+        for (HashMap<String, Integer> tag : tagList.tags()) {
             String name = tag.get("name");
             if (highestTag.contains(name)) {
                 highestTagList.add(tag.get("tagid"));

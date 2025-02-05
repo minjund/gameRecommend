@@ -1,4 +1,4 @@
-package com.minjun.gamerecommend.application.reivew.dto;
+package com.minjun.gamerecommend.api.reivew.dto;
 
 import com.minjun.gamerecommend.service.review.ReviewInfo;
 import lombok.Builder;

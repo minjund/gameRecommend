@@ -1,4 +1,4 @@
-package com.minjun.gamerecommend.application.user.dto;
+package com.minjun.gamerecommend.api.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

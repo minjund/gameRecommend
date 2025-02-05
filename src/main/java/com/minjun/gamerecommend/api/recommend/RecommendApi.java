@@ -1,4 +1,4 @@
-package com.minjun.gamerecommend.application.recommend;
+package com.minjun.gamerecommend.api.recommend;
 
 import com.minjun.gamerecommend.domain.game.RecommendGame;
 import com.minjun.gamerecommend.service.recommend.RecommendDetailInfo;
@@ -9,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/recommend")
@@ -18,7 +16,7 @@ public class RecommendApi {
 
     private final RecommendService recommendService;
 
-    @GetMapping("/list")
+    @GetMapping
     public ResponseEntity<RecommendGameResponse> gameRecommendList(@RequestParam String userId){
         RecommendGameInfo recommendGameInfo = RecommendGameInfo.from(userId);
 
@@ -27,8 +25,8 @@ public class RecommendApi {
         return ResponseEntity.ok(RecommendGameResponse.of(recommendGameList));
     }
 
-    @GetMapping("/detail")
-    public ResponseEntity<?>  RecommendGameDetail(@RequestParam String appId){
+    @GetMapping("/{appId}")
+    public ResponseEntity<?>  RecommendGameDetail(@PathVariable String appId){
         //TODO 상세보기 작업 필요
         RecommendDetailInfo recommendDetailInfo = RecommendDetailInfo.from(appId);
 

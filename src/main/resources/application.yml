@@ -15,11 +15,6 @@ spring:
         show_sql: true
         format_sql: true
 
-#steam:
-#    api:
-#      key: B13B650A477950A52E089600C57EB17C
-#      url: https://api.steampowered.com
-
 logging:
   level:
     org.hibernate.SQL: debug

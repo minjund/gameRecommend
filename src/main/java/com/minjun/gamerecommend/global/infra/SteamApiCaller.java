@@ -53,7 +53,6 @@ public class SteamApiCaller implements SteamGameExternal {
                 .response();
     }
 
-    // 게임 태그 조회
     @Override
     public GameDetailToTag callGameDetailToTagByAppId(String appId){
         RestClient restClient = buildSteamApiUrl(SteamApiType.GAME_TO_TAG);
@@ -89,7 +88,7 @@ public class SteamApiCaller implements SteamGameExternal {
     public RecommendGame callGameListByTag(String gameRecommendCommandToString){
         RestClient restClient = buildSteamApiUrl(SteamApiType.TAG_TO_GAME);
 
-        RecommendGame response = Objects.requireNonNull(Optional.of(restClient.get()
+        return Objects.requireNonNull(Optional.of(restClient.get()
                         .uri(uriBuilder ->
                                 UriComponentsBuilder
                                         .fromPath("/IStoreQueryService/Query/v1/") // 기본 URI 추가
@@ -102,8 +101,6 @@ public class SteamApiCaller implements SteamGameExternal {
                         .toEntity(RecommendGameResult.class))
                 .orElseThrow(() -> new RuntimeException("게임 정보가 없습니다."))
                 .getBody()).response();
-
-        return response;
     }
 
     @Override
@@ -138,8 +135,7 @@ public class SteamApiCaller implements SteamGameExternal {
                 .toEntity(Map.class).getBody();
     }
 
-    @Override
-    public RestClient buildSteamApiUrl(SteamApiType steamApiType) {
+    private RestClient buildSteamApiUrl(SteamApiType steamApiType) {
         return RestClient.builder()
                 .baseUrl(steamApiType.getUrl())
                 .build();
