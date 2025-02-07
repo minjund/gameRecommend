@@ -37,9 +37,11 @@ public class RecommendService {
         return gameFinder.findGameListTagFilter(gameRecommendCondition);
     }
 
+
+    // fixme : 게임 상세 추가해주세요
     public GameDetailInfo findGameDetail() {
 
-
+//        findGameDetailByAppId
         return null;
     }
 }
