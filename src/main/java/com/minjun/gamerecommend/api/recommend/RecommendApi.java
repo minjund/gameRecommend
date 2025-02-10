@@ -5,6 +5,7 @@ import com.minjun.gamerecommend.service.recommend.RecommendDetailInfo;
 import com.minjun.gamerecommend.service.recommend.RecommendGameInfo;
 import com.minjun.gamerecommend.service.recommend.RecommendService;
 import com.minjun.gamerecommend.service.game.process.GameDetailInfo;
+import com.minjun.gamerecommend.service.user.UserId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +19,9 @@ public class RecommendApi {
 
     @GetMapping
     public ResponseEntity<RecommendGameResponse> gameRecommendList(@RequestParam String userId){
-        RecommendGameInfo recommendGameInfo = RecommendGameInfo.from(userId);
+        UserId loginUserId = UserId.from(userId);
 
-        RecommendGame recommendGameList = recommendService.findGameList(recommendGameInfo);
+        RecommendGame recommendGameList = recommendService.findGameList(loginUserId);
 
         return ResponseEntity.ok(RecommendGameResponse.of(recommendGameList));
     }

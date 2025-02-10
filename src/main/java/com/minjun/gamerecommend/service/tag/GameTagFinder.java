@@ -1,4 +1,4 @@
-package com.minjun.gamerecommend.service.game.process;
+package com.minjun.gamerecommend.service.tag;
 
 import com.minjun.gamerecommend.global.infra.SteamApiCaller;
 import com.minjun.gamerecommend.domain.game.GameTagList;
@@ -11,8 +11,8 @@ public class GameTagFinder {
 
     private final SteamApiCaller steamApiCaller;
 
-    public GameTagResult findTagList() {
+    public GameTagsResult findTagList() {
         GameTagList gameTagList = steamApiCaller.callTagList();
-        return GameTagResult.from(gameTagList.tags());
+        return GameTagsResult.from(gameTagList.tags());
     }
 }

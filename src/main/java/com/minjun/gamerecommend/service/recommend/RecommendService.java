@@ -1,9 +1,10 @@
 package com.minjun.gamerecommend.service.recommend;
 
 import com.minjun.gamerecommend.domain.game.RecommendGame;
-import com.minjun.gamerecommend.domain.tag.GameTags;
 import com.minjun.gamerecommend.service.game.process.*;
-import com.minjun.gamerecommend.service.game.process.ScoreCalculationTags;
+import com.minjun.gamerecommend.service.score.process.ScoreCalculationTags;
+import com.minjun.gamerecommend.service.tag.*;
+import com.minjun.gamerecommend.service.user.UserId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,19 +18,14 @@ public class RecommendService {
     private final GameTagFinder gameTagFinder;
     private final GameTagMatch gameTagMatch;
 
-    public RecommendGame findGameList(
-            RecommendGameInfo recommendGameInfo
-    ){
-        RecentlyPlayGameCondition recentlyPlayGameCondition = new RecentlyPlayGameCondition(recommendGameInfo.userId());
-        RecentlyPlayGameInfo recentlyPlayGameInfo = gameFinder.findGameRecentlyPlay(recentlyPlayGameCondition);
+    public RecommendGame findGameList(UserId userId){
+        GameTagsResult gameTagsResult = gameTagFinder.findTagList();
+        RecentlyPlayGameInfo recentlyPlayGameInfo = gameFinder.findGameRecentlyPlay(userId);
 
-        // 태그 정보 추출
-        List<GameTags> gameTags = gameFinder.findGameDetailToTagByAppId(recentlyPlayGameInfo.games());
-        GameTagResult tagList = gameTagFinder.findTagList();
+        RecommendGameTagsMapper recommendGameTagsMapper = gameFinder.findGameDetailToTagByAppId(recentlyPlayGameInfo.recommendGames());
 
-        // 추천 된 게임 리스트
-        ScoreCalculationTags scoreCalculationTags = ScoreCalculationTags.from(gameTags);
-        List<List<String>> tagIdList = gameTagMatch.matchTagIdList(scoreCalculationTags, tagList);
+        ScoreCalculationTags scoreCalculationTags = ScoreCalculationTags.from(recommendGameTagsMapper);
+        List<List<String>> tagIdList = gameTagMatch.matchTagIdList(scoreCalculationTags, gameTagsResult);
 
         GameRecommendCondition gameRecommendCondition = GameRecommendCondition.create(tagIdList);
 

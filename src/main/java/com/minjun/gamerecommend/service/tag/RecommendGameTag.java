@@ -1,11 +1,11 @@
-package com.minjun.gamerecommend.domain.tag;
+package com.minjun.gamerecommend.service.tag;
 
 import java.util.LinkedHashMap;
 
-public record GameTags(Integer gameId, LinkedHashMap<String, Integer> tags) {
+public record RecommendGameTag(Integer gameId, LinkedHashMap<String, Integer> tags) {
 
-    public static GameTags of(Integer gameId, Object tags) {
-        return new GameTags(gameId, convertTags(tags));
+    public static RecommendGameTag of(Integer gameId, Object tags) {
+        return new RecommendGameTag(gameId, convertTags(tags));
     }
 
     private static LinkedHashMap<String, Integer> convertTags(Object tags){

@@ -1,8 +1,6 @@
 package com.minjun.gamerecommend.domain.game;
 
 import com.minjun.gamerecommend.domain.user.UserResult;
-import com.minjun.gamerecommend.global.infra.SteamApiType;
-import org.springframework.web.client.RestClient;
 
 import java.util.Map;
 

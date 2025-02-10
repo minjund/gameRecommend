@@ -1,7 +1,6 @@
 package com.minjun.gamerecommend.service.score.process;
 
-import com.minjun.gamerecommend.domain.tag.GameTags;
-import com.minjun.gamerecommend.service.game.process.ScoreCalculationTags;
+import com.minjun.gamerecommend.service.tag.RecommendGameTag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +10,10 @@ import java.util.*;
 @RequiredArgsConstructor
 public class ScoreCalculation {
 
-    public ScoreCalculationTags ScoreTagId(List<GameTags> gameTags) {
+    public ScoreCalculationTags ScoreTagId(List<RecommendGameTag> recommendGameTags) {
         HashMap<String, Integer> tagCountMap = new HashMap<>();
 
-        for (GameTags info : gameTags) {
+        for (RecommendGameTag info : recommendGameTags) {
             LinkedHashMap<String, Integer> tagList = info.tags();
 
             for (Map.Entry<String, Integer> entry : tagList.entrySet()) {

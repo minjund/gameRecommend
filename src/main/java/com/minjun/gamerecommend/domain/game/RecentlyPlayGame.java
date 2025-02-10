@@ -7,6 +7,6 @@ import java.util.List;
 
 public record RecentlyPlayGame(@JsonProperty("total_count")
                                    Integer totalCount,
-                               @JsonProperty("games")
+                               @JsonProperty("recommendGames")
                                    List<HashMap<String,String>> games) {
 }

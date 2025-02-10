@@ -1,7 +1,9 @@
 package com.minjun.gamerecommend.service.game.process;
 
 import com.minjun.gamerecommend.domain.game.*;
-import com.minjun.gamerecommend.domain.tag.GameTags;
+import com.minjun.gamerecommend.service.tag.RecommendGameTag;
+import com.minjun.gamerecommend.service.recommend.RecommendGameTagsMapper;
+import com.minjun.gamerecommend.service.user.UserId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,19 +19,20 @@ public class GameFinder {
 
     private final SteamGameExternal steamGameExternal;
 
-    public RecentlyPlayGameInfo findGameRecentlyPlay(RecentlyPlayGameCondition recentlyPlayGameCommand) {
-        RecentlyPlayGame recentlyPlayGame = steamGameExternal.callRecentlyPlayedGameByUserId(recentlyPlayGameCommand.userIdValue());
+    public RecentlyPlayGameInfo findGameRecentlyPlay(UserId userId) {
+        RecentlyPlayGame recentlyPlayGame = steamGameExternal.callRecentlyPlayedGameByUserId(userId.value());
         return RecentlyPlayGameInfo.from(recentlyPlayGame);
     }
 
-    public List<GameTags> findGameDetailToTagByAppId(Games games) {
-        List<GameTags> gameTags = new ArrayList<>();
-        games.findIds().forEach(game -> {
+    public RecommendGameTagsMapper findGameDetailToTagByAppId(RecommendGames recommendGames) {
+        List<RecommendGameTag> recommendGameTags = new ArrayList<>();
+
+        recommendGames.findIds().forEach(game -> {
             GameDetailToTag gameDetailToTag = steamGameExternal.callGameDetailToTagByAppId(game);
-            gameTags.add(GameTags.of(gameDetailToTag.appId(), gameDetailToTag.tags()));
+            recommendGameTags.add(RecommendGameTag.of(gameDetailToTag.appId(), gameDetailToTag.tags()));
         });
 
-        return gameTags;
+        return RecommendGameTagsMapper.of(recommendGameTags);
     }
 
     public RecommendGame findGameListTagFilter(GameRecommendCondition gameRecommendCondition) {

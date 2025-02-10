@@ -4,15 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public record Games(List<HashMap<String, String>> games) {
-    public Games {
+public record RecommendGames(List<HashMap<String, String>> games) {
+    public RecommendGames {
         if(games.isEmpty()){
             throw new IllegalArgumentException("게임을 못 찾았습니다.");
         }
     }
 
-    public static Games from(List<HashMap<String, String>> games) {
-        return new Games(games);
+    public static RecommendGames from(List<HashMap<String, String>> games) {
+        return new RecommendGames(games);
     }
 
     public List<String> findIds(){

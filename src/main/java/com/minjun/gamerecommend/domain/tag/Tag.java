@@ -22,4 +22,8 @@ public record Tag(HashMap<String, Integer> tags) {
         }
         return new Tag(convertTag);
     }
+
+    public HashMap<String, Integer> map(){
+        return tags;
+    }
 }

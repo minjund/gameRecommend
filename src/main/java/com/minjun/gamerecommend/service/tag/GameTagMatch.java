@@ -1,5 +1,6 @@
-package com.minjun.gamerecommend.service.game.process;
+package com.minjun.gamerecommend.service.tag;
 
+import com.minjun.gamerecommend.service.score.process.ScoreCalculationTags;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -7,16 +8,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.minjun.gamerecommend.global.util.Extractor.extractMaxValues;
-import static com.minjun.gamerecommend.global.util.Extractor.extractMinValues;
-
 @Service
 @RequiredArgsConstructor
 public class GameTagMatch {
 
-    public List<List<String>> matchTagIdList(ScoreCalculationTags scoreTagInfo, GameTagResult tagList) {
-        List<String> highestTag = extractMaxValues(scoreTagInfo.tag());
-        List<String> lowestTag = extractMinValues(scoreTagInfo.tag());
+    //FIXME : 이거 객체로 빼주세요..
+    public List<List<String>> matchTagIdList(ScoreCalculationTags scoreTagInfo, GameTagsResult tagList) {
 
         List<List<String>> result = new ArrayList<>();
         List<String> highestTagList = new ArrayList<>();
@@ -38,5 +35,4 @@ public class GameTagMatch {
 
         return result;
     }
-
 }
