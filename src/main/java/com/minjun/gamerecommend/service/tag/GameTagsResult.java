@@ -9,7 +9,7 @@ public record GameTagsResult(List<Tag> tags) {
     public static GameTagsResult from(List<HashMap<String , String>> tags) {
         return new GameTagsResult(
                 tags.stream()
-                .map(Tag::ofString)
+                .map(Tag::convert)
                 .toList()
         );
     }
