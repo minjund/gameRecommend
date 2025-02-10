@@ -24,10 +24,10 @@ public record Tag(HashMap<String, Integer> tags) {
     }
 
     public String name(){
-        return String.valueOf(tags.get("name"));
+        return tags.keySet().iterator().next();
     }
 
     public String tagId(){
-        return String.valueOf(tags.get("tagid"));
+        return String.valueOf(tags.values().iterator().next());
     }
 }

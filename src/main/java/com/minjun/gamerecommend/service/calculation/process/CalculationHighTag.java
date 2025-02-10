@@ -15,8 +15,7 @@ public record CalculationHighTag(List<String> higtTagList) {
         List<String> tagIds = new ArrayList<>();
 
         for (Tag t : gameTagsResult.tags()) {
-            String name = t.name();
-            if (highestTag.contains(name)) {
+            if (highestTag.contains(t.name())) {
                 tagIds.add(t.tagId());
             }
         }

@@ -24,6 +24,7 @@ public class GameFinder {
         return RecentlyPlayGameInfo.from(recentlyPlayGame);
     }
 
+    // fixme : 2초 걸려요..
     public RecommendGameTagsMapper findGameDetailToTagByAppId(RecommendGames recommendGames) {
         List<RecommendGameTag> recommendGameTags = new ArrayList<>();
 

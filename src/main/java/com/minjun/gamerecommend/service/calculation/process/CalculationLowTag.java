@@ -15,8 +15,7 @@ public record CalculationLowTag(List<String> lowTagList) {
         List<String> tagIds = new ArrayList<>();
 
         for (Tag t : gameTagsResult.tags()) {
-            String name = t.name();
-            if (minValues.contains(name)) {
+            if (minValues.contains(t.name())) {
                 tagIds.add(t.tagId());
             }
         }

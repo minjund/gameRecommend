@@ -38,6 +38,6 @@ public record GameDetailToTag(@JsonProperty("appid")
                               Integer ccu,
                               @JsonProperty("genre")
                               String genre,
-                              @JsonProperty("tag")
+                              @JsonProperty("tags")
                               Object tags) {
 }
