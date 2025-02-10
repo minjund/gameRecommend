@@ -26,4 +26,12 @@ public record Tag(HashMap<String, Integer> tags) {
     public HashMap<String, Integer> map(){
         return tags;
     }
+
+    public String name(){
+        return String.valueOf(tags.get("name"));
+    }
+
+    public String tagId(){
+        return String.valueOf(tags.get("tagid"));
+    }
 }

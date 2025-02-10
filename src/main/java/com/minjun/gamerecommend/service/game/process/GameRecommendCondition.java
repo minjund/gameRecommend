@@ -1,5 +1,7 @@
 package com.minjun.gamerecommend.service.game.process;
 
+import com.minjun.gamerecommend.service.calculation.process.CalculationHighTag;
+import com.minjun.gamerecommend.service.calculation.process.CalculationLowTag;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +15,7 @@ public class GameRecommendCondition {
     private Context context;
     private DataRequest data_request;
 
-    public static GameRecommendCondition create(List<List<String>> tagIdList) {
+    public static GameRecommendCondition create(CalculationHighTag calculationHighTag, CalculationLowTag calculationLowTag) {
         return GameRecommendCondition.builder()
                 .query(Query.builder()
                         .count("8")
@@ -24,9 +26,9 @@ public class GameRecommendCondition {
                                         .include_games(true)
                                         .build())
                                 .tagids_must_match(List.of(new Query.Filters.TagIds(
-                                        tagIdList.getFirst()  // 첫 번째 리스트를 사용
+                                        calculationHighTag.list()
                                 )))
-                                .tagids_exclude(tagIdList.get(1))
+                                .tagids_exclude(calculationLowTag.list())
                                 .build())
                         .build())
                 .context(Context.builder()
