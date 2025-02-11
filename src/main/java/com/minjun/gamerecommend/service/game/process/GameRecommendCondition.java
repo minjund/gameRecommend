@@ -38,6 +38,7 @@ public class GameRecommendCondition {
                         .build())
                 .data_request(DataRequest.builder()
                         .include_basic_info(true)
+                        .include_assets(true)
                         .build())
                 .build();
     }
@@ -84,5 +85,6 @@ public class GameRecommendCondition {
     @Builder
     public static class DataRequest {
         private boolean include_basic_info;
+        private boolean include_assets;
     }
 }
