@@ -19,9 +19,9 @@ public class GameFinder {
 
     private final SteamGameExternal steamGameExternal;
 
-    public RecentlyPlayGameInfo findGameRecentlyPlay(UserId userId) {
+    public RecentlyGame findGameRecentlyPlay(UserId userId) {
         RecentlyPlayGame recentlyPlayGame = steamGameExternal.callRecentlyPlayedGameByUserId(userId.value());
-        return RecentlyPlayGameInfo.from(recentlyPlayGame);
+        return RecentlyGame.from(recentlyPlayGame);
     }
 
     // fixme : 2초 걸려요..
@@ -55,5 +55,9 @@ public class GameFinder {
         });
 
         return gameDetailToTagParamList;
+    }
+
+    public HaveGame findGameHave(UserId userId) {
+        return null;
     }
 }
