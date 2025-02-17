@@ -1,10 +1,8 @@
 package com.minjun.gamerecommend.service.recommend;
 
 import com.minjun.gamerecommend.domain.game.RecommendGame;
-import com.minjun.gamerecommend.domain.game.RecommendGames;
 import com.minjun.gamerecommend.service.calculation.process.CalculationHighTag;
 import com.minjun.gamerecommend.service.calculation.process.CalculationLowTag;
-import com.minjun.gamerecommend.service.game.process.HaveGame;
 import com.minjun.gamerecommend.service.game.process.*;
 import com.minjun.gamerecommend.service.calculation.process.CalculationTag;
 import com.minjun.gamerecommend.service.tag.*;
@@ -21,15 +19,13 @@ public class RecommendService {
     public RecommendGame findGameList(UserId userId){
         GameTagsResult gameTagsResult = gameTagFinder.findTagList();
 
+        //보유중인 게임
         HaveGame haveGame = gameFinder.findGameHave(userId);
         RecentlyGame recentlyGame = gameFinder.findGameRecentlyPlay(userId);
 
-        RecommendGames recommendGames = new RecommendGames(recentlyGame.recommendGames().games());
-        recommendGames.add(haveGame.games().games());
-
         RecommendGameTagsMapper recommendGameTagsMapper = gameFinder.findGameDetailToTagByAppId(recentlyGame.recommendGames());
 
-        CalculationTag calculationTag = CalculationTag.from(recommendGameTagsMapper);
+        CalculationTag calculationTag = CalculationTag.fromRecently(recommendGameTagsMapper);
 
         CalculationHighTag calculationHighTag = CalculationHighTag.of(calculationTag.tag(), gameTagsResult);
         CalculationLowTag calculationLowTag = CalculationLowTag.of(calculationTag.tag(), gameTagsResult);

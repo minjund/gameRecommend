@@ -9,11 +9,15 @@ import java.util.stream.Collectors;
 
 
 public record CalculationTag(Tag tag) {
-    public static CalculationTag from(RecommendGameTagsMapper recommendGameTagsMapper) {
-        return new CalculationTag(Tag.of(calculationRecommendScore(recommendGameTagsMapper)));
+    public static CalculationTag fromRecently(RecommendGameTagsMapper recommendGameTagsMapper) {
+        return new CalculationTag(Tag.of(calculationRecommendScore(recommendGameTagsMapper,2)));
     }
 
-    private static HashMap<String, Integer> calculationRecommendScore(RecommendGameTagsMapper recommendGameTagsMapper) {
+    public static CalculationTag fromHaveGame(RecommendGameTagsMapper recommendGameTagsMapper) {
+        return new CalculationTag(Tag.of(calculationRecommendScore(recommendGameTagsMapper,1)));
+    }
+
+    private static HashMap<String, Integer> calculationRecommendScore(RecommendGameTagsMapper recommendGameTagsMapper, Integer addScore) {
         return recommendGameTagsMapper.list()
                 .stream()
                 .flatMap(gameTag -> gameTag.tags().entrySet().stream())
@@ -22,7 +26,7 @@ public record CalculationTag(Tag tag) {
                         HashMap::new,
                         Collectors.collectingAndThen(
                                 Collectors.counting(),
-                                Long::intValue
+                                count -> count.intValue() + addScore
                         )
                 ));
     }

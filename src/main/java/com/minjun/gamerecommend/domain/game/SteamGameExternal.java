@@ -1,6 +1,7 @@
 package com.minjun.gamerecommend.domain.game;
 
 import com.minjun.gamerecommend.domain.user.UserResult;
+import com.minjun.gamerecommend.service.user.UserId;
 
 import java.util.Map;
 
