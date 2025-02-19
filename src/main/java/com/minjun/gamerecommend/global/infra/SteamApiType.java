@@ -11,7 +11,8 @@ public enum SteamApiType {
     MOST_POPULAR_TAGS("http://api.steampowered.com/IStoreService/GetMostPopularTags/v1","스팀 인기 많은 태그 리스트"),
     TAG_TO_GAME("http://api.steampowered.com","태그에 속한 게임"),
     GAME_DETAIL("https://store.steampowered.com/api/appdetails","게임 상세 정보"),
-    GAME_REVIEW("https://store.steampowered.com/appreviews/","게임 리뷰 정보");
+    GAME_REVIEW("https://store.steampowered.com/appreviews/","게임 리뷰 정보"),
+    HAVE_GAME("https://api.steampowered.com/IPlayerService/GetOwnedGames/v1","보유 중인 게임");
 
     private final String url;
     private final String explain;

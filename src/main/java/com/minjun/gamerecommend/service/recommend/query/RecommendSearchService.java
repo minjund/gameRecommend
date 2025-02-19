@@ -6,7 +6,8 @@ import com.minjun.gamerecommend.domain.calculation.CalculationLowTag;
 import com.minjun.gamerecommend.domain.calculation.CalculationTag;
 import com.minjun.gamerecommend.domain.tag.GameTagFinder;
 import com.minjun.gamerecommend.domain.tag.GameTagsResult;
-import com.minjun.gamerecommend.service.user.UserId;
+import com.minjun.gamerecommend.domain.game.RecommendGameResponse;
+import com.minjun.gamerecommend.domain.user.UserId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,7 @@ public class RecommendSearchService {
     private final GameFinder gameFinder;
     private final GameTagFinder gameTagFinder;
 
-    public RecommendGameResult findGameList(UserId userId){
+    public RecommendGameResponse findGameList(UserId userId){
         GameTagsResult gameTagsResult = gameTagFinder.findTagList();
 
         //보유 중인 게임

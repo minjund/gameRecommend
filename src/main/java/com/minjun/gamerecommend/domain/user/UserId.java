@@ -1,4 +1,4 @@
-package com.minjun.gamerecommend.service.user;
+package com.minjun.gamerecommend.domain.user;
 
 import org.springframework.util.StringUtils;
 

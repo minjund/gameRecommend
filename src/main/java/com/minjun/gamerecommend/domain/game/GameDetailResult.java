@@ -1,4 +1,4 @@
-package com.minjun.gamerecommend.service.recommend.query;
+package com.minjun.gamerecommend.domain.game;
 
 import lombok.Builder;
 

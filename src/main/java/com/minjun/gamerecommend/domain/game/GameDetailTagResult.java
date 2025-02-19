@@ -1,6 +1,5 @@
-package com.minjun.gamerecommend.service.recommend.query;
+package com.minjun.gamerecommend.domain.game;
 
-import com.minjun.gamerecommend.domain.game.GameDetailToTag;
 import lombok.Builder;
 
 import java.util.LinkedHashMap;

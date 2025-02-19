@@ -1,6 +1,12 @@
 package com.minjun.gamerecommend.domain.game;
 
-import com.minjun.gamerecommend.domain.count.TotalCount;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record HaveGame(TotalCount totalCount, RecommendGames games) {
+import java.util.HashMap;
+import java.util.List;
+
+public record HaveGame(@JsonProperty("game_count")
+                       Integer totalCount,
+                       @JsonProperty("games")
+                       List<HashMap<String,Object>> games) {
 }

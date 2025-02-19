@@ -1,8 +1,9 @@
 package com.minjun.gamerecommend.global.infra;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minjun.gamerecommend.domain.game.*;
 import com.minjun.gamerecommend.domain.user.UserResult;
+import com.minjun.gamerecommend.global.infra.dto.*;
+import com.minjun.gamerecommend.domain.user.UserId;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -12,11 +13,6 @@ import java.util.*;
 @Service
 public class SteamApiCaller implements SteamGameExternal {
     private static final String steamApiKey = "489DB338ED4D87FA560F11BC5B4B5986";
-
-    public record RecentlyPlayGameResult(@JsonProperty("response") RecentlyPlayGame response) { }
-    public record GameTagListResult(@JsonProperty("response") GameTagList response) { }
-    public record RecommendGameResult(@JsonProperty("response") com.minjun.gamerecommend.service.recommend.query.RecommendGameResult response) { }
-    public record LoginUserResult(@JsonProperty("response") UserResult response) { }
 
     @Override
     public UserResult callSteamLoginDetail(String userId) {
@@ -85,7 +81,7 @@ public class SteamApiCaller implements SteamGameExternal {
     }
 
     @Override
-    public com.minjun.gamerecommend.service.recommend.query.RecommendGameResult callGameListByTag(String gameRecommendCommandToString){
+    public RecommendGameResponse callGameListByTag(String gameRecommendCommandToString){
         RestClient restClient = buildSteamApiUrl(SteamApiType.TAG_TO_GAME);
 
         return Objects.requireNonNull(Optional.of(restClient.get()
@@ -133,6 +129,27 @@ public class SteamApiCaller implements SteamGameExternal {
                 .header("Content-Type", "application/json")
                 .retrieve()
                 .toEntity(Map.class).getBody();
+    }
+
+    @Override
+    public HaveGame callHaveGameList(UserId userId) {
+        RestClient restClient = buildSteamApiUrl(SteamApiType.HAVE_GAME);
+
+        HaveGameResult haveGameResult = Optional.ofNullable(restClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/")
+                        .queryParam("key", steamApiKey)
+                        .queryParam("include_appinfo", true)
+                        .queryParam("language", "en")
+                        .queryParam("include_extended_appinfo", true)
+                        .build())
+                .header("Content-Type", "application/json")
+                .retrieve()
+                .toEntity(HaveGameResult.class)
+                .getBody()
+        ).orElseThrow(() -> new RuntimeException("게임 정보가 없습니다."));
+
+        return haveGameResult.response();
     }
 
     private RestClient buildSteamApiUrl(SteamApiType steamApiType) {

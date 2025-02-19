@@ -1,11 +1,9 @@
 package com.minjun.gamerecommend.domain.game;
 
 import com.minjun.gamerecommend.domain.tag.RecommendGameTag;
-import com.minjun.gamerecommend.service.recommend.query.GameDetailResult;
 import com.minjun.gamerecommend.service.recommend.query.GameRecommendCondition;
-import com.minjun.gamerecommend.service.recommend.query.RecommendGameResult;
 import com.minjun.gamerecommend.service.recommend.query.RecommendGameTagsMapper;
-import com.minjun.gamerecommend.service.user.UserId;
+import com.minjun.gamerecommend.domain.user.UserId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -38,12 +36,12 @@ public class GameFinder {
         return RecommendGameTagsMapper.of(recommendGameTags);
     }
 
-    public RecommendGameResult findGameListTagFilter(GameRecommendCondition gameRecommendCondition) {
+    public RecommendGameResponse findGameListTagFilter(GameRecommendCondition gameRecommendCondition) {
         String gameRecommendCommandToString = convert(gameRecommendCondition);
         return steamGameExternal.callGameListByTag(gameRecommendCommandToString);
     }
 
-    public List<GameDetailResult> findGameDetailByAppId(RecommendGameResult gameDetailList) {
+    public List<GameDetailResult> findGameDetailByAppId(RecommendGameResponse gameDetailList) {
         List<GameDetailResult> gameDetailToTagParamList = new ArrayList<>();
 
         gameDetailList.gameList().forEach(game -> {
@@ -59,6 +57,6 @@ public class GameFinder {
     }
 
     public HaveGame findGameHave(UserId userId) {
-        return null;
+        return steamGameExternal.callHaveGameList(userId);
     }
 }

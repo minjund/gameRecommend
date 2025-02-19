@@ -1,7 +1,7 @@
 package com.minjun.gamerecommend.domain.game;
 
 import com.minjun.gamerecommend.domain.user.UserResult;
-import com.minjun.gamerecommend.service.recommend.query.RecommendGameResult;
+import com.minjun.gamerecommend.domain.user.UserId;
 
 import java.util.Map;
 
@@ -14,9 +14,11 @@ public interface SteamGameExternal {
 
     GameTagList callTagList();
 
-    RecommendGameResult callGameListByTag(String gameRecommendCommandToString);
+    RecommendGameResponse callGameListByTag(String gameRecommendCommandToString);
 
     GameDetail callGameDetailByAppId(Integer appId);
 
     Map callGameDetailReview(String appId);
+
+    HaveGame callHaveGameList(UserId userId);
 }

@@ -7,7 +7,7 @@ public record TotalCount(Integer count) {
         }
     }
 
-    public static TotalCount from(Integer count) {
+    public static TotalCount of(Integer count) {
         return new TotalCount(count);
     }
 }

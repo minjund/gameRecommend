@@ -2,7 +2,7 @@ package com.minjun.gamerecommend.api.user;
 
 import com.minjun.gamerecommend.api.user.dto.SteamLoginCallBackRequest;
 import com.minjun.gamerecommend.api.user.dto.SteamLoginCallBackResponse;
-import com.minjun.gamerecommend.service.user.UserId;
+import com.minjun.gamerecommend.domain.user.UserId;
 import com.minjun.gamerecommend.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
