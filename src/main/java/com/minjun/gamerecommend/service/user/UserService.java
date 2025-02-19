@@ -1,8 +1,8 @@
 package com.minjun.gamerecommend.service.user;
 
-import com.minjun.gamerecommend.service.user.process.UserFinder;
-import com.minjun.gamerecommend.service.user.process.UserSaveCommand;
-import com.minjun.gamerecommend.service.user.process.UserStorage;
+import com.minjun.gamerecommend.domain.user.UserFinder;
+import com.minjun.gamerecommend.domain.user.UserSaveCommand;
+import com.minjun.gamerecommend.domain.user.UserStorage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

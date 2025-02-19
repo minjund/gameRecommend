@@ -1,7 +1,7 @@
-package com.minjun.gamerecommend.service.calculation.process;
+package com.minjun.gamerecommend.domain.calculation;
 
 import com.minjun.gamerecommend.domain.tag.Tag;
-import com.minjun.gamerecommend.service.tag.GameTagsResult;
+import com.minjun.gamerecommend.domain.tag.GameTagsResult;
 
 import java.util.ArrayList;
 import java.util.List;

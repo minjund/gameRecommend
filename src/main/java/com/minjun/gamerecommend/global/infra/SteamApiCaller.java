@@ -15,7 +15,7 @@ public class SteamApiCaller implements SteamGameExternal {
 
     public record RecentlyPlayGameResult(@JsonProperty("response") RecentlyPlayGame response) { }
     public record GameTagListResult(@JsonProperty("response") GameTagList response) { }
-    public record RecommendGameResult(@JsonProperty("response") RecommendGame response) { }
+    public record RecommendGameResult(@JsonProperty("response") com.minjun.gamerecommend.service.recommend.query.RecommendGameResult response) { }
     public record LoginUserResult(@JsonProperty("response") UserResult response) { }
 
     @Override
@@ -85,7 +85,7 @@ public class SteamApiCaller implements SteamGameExternal {
     }
 
     @Override
-    public RecommendGame callGameListByTag(String gameRecommendCommandToString){
+    public com.minjun.gamerecommend.service.recommend.query.RecommendGameResult callGameListByTag(String gameRecommendCommandToString){
         RestClient restClient = buildSteamApiUrl(SteamApiType.TAG_TO_GAME);
 
         return Objects.requireNonNull(Optional.of(restClient.get()

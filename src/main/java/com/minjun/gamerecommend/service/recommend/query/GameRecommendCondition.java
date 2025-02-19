@@ -1,7 +1,7 @@
-package com.minjun.gamerecommend.service.game.process;
+package com.minjun.gamerecommend.service.recommend.query;
 
-import com.minjun.gamerecommend.service.calculation.process.CalculationHighTag;
-import com.minjun.gamerecommend.service.calculation.process.CalculationLowTag;
+import com.minjun.gamerecommend.domain.calculation.CalculationHighTag;
+import com.minjun.gamerecommend.domain.calculation.CalculationLowTag;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

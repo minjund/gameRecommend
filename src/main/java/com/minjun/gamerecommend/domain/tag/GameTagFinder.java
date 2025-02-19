@@ -1,4 +1,4 @@
-package com.minjun.gamerecommend.service.tag;
+package com.minjun.gamerecommend.domain.tag;
 
 import com.minjun.gamerecommend.global.infra.SteamApiCaller;
 import com.minjun.gamerecommend.domain.game.GameTagList;

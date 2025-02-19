@@ -1,4 +1,4 @@
-package com.minjun.gamerecommend.service.review;
+package com.minjun.gamerecommend.service.review.query;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,7 +1,5 @@
-package com.minjun.gamerecommend.service.game.process;
+package com.minjun.gamerecommend.domain.game;
 
-import com.minjun.gamerecommend.domain.game.RecentlyPlayGame;
-import com.minjun.gamerecommend.domain.game.RecommendGames;
 import com.minjun.gamerecommend.domain.count.TotalCount;
 
 public record RecentlyGame(TotalCount totalCount, RecommendGames recommendGames) {

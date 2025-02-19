@@ -1,7 +1,5 @@
-package com.minjun.gamerecommend.service.user.process;
+package com.minjun.gamerecommend.domain.user;
 
-import com.minjun.gamerecommend.domain.user.User;
-import com.minjun.gamerecommend.domain.user.UserDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

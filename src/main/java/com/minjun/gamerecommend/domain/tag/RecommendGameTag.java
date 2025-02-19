@@ -1,4 +1,4 @@
-package com.minjun.gamerecommend.service.tag;
+package com.minjun.gamerecommend.domain.tag;
 
 import java.util.LinkedHashMap;
 

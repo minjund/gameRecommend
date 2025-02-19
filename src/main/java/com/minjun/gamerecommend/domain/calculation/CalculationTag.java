@@ -1,7 +1,7 @@
-package com.minjun.gamerecommend.service.calculation.process;
+package com.minjun.gamerecommend.domain.calculation;
 
 import com.minjun.gamerecommend.domain.tag.Tag;
-import com.minjun.gamerecommend.service.recommend.RecommendGameTagsMapper;
+import com.minjun.gamerecommend.service.recommend.query.RecommendGameTagsMapper;
 
 import java.util.HashMap;
 import java.util.Map;

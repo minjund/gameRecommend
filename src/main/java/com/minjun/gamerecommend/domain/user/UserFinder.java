@@ -1,7 +1,6 @@
-package com.minjun.gamerecommend.service.user.process;
+package com.minjun.gamerecommend.domain.user;
 
 import com.minjun.gamerecommend.global.infra.SteamApiCaller;
-import com.minjun.gamerecommend.domain.user.UserResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

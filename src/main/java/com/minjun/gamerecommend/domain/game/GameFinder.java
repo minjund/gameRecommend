@@ -1,8 +1,10 @@
-package com.minjun.gamerecommend.service.game.process;
+package com.minjun.gamerecommend.domain.game;
 
-import com.minjun.gamerecommend.domain.game.*;
-import com.minjun.gamerecommend.service.tag.RecommendGameTag;
-import com.minjun.gamerecommend.service.recommend.RecommendGameTagsMapper;
+import com.minjun.gamerecommend.domain.tag.RecommendGameTag;
+import com.minjun.gamerecommend.service.recommend.query.GameDetailResult;
+import com.minjun.gamerecommend.service.recommend.query.GameRecommendCondition;
+import com.minjun.gamerecommend.service.recommend.query.RecommendGameResult;
+import com.minjun.gamerecommend.service.recommend.query.RecommendGameTagsMapper;
 import com.minjun.gamerecommend.service.user.UserId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -36,22 +38,21 @@ public class GameFinder {
         return RecommendGameTagsMapper.of(recommendGameTags);
     }
 
-    public RecommendGame findGameListTagFilter(GameRecommendCondition gameRecommendCondition) {
+    public RecommendGameResult findGameListTagFilter(GameRecommendCondition gameRecommendCondition) {
         String gameRecommendCommandToString = convert(gameRecommendCondition);
         return steamGameExternal.callGameListByTag(gameRecommendCommandToString);
     }
 
-    public List<GameDetailInfo> findGameDetailByAppId(RecommendGame gameDetailList) {
-        List<GameDetailInfo> gameDetailToTagParamList = new ArrayList<>();
+    public List<GameDetailResult> findGameDetailByAppId(RecommendGameResult gameDetailList) {
+        List<GameDetailResult> gameDetailToTagParamList = new ArrayList<>();
 
-        // FIXME : 2초 넘게 걸려요..
         gameDetailList.gameList().forEach(game -> {
             GameDetail appid = steamGameExternal.callGameDetailByAppId((Integer) game.get("appid"));
             if (appid.gameDetail().isEmpty()) {
                 return;
             }
             HashMap<String, Object> stringObjectHashMap = (HashMap<String, Object>) appid.gameDetail().get(String.valueOf(game.get("appid"))).get("data");
-            gameDetailToTagParamList.add(GameDetailInfo.from(stringObjectHashMap));
+            gameDetailToTagParamList.add(GameDetailResult.from(stringObjectHashMap));
         });
 
         return gameDetailToTagParamList;

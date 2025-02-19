@@ -1,6 +1,6 @@
 package com.minjun.gamerecommend.api.reivew.dto;
 
-import com.minjun.gamerecommend.service.review.ReviewInfo;
+import com.minjun.gamerecommend.service.review.query.ReviewInfo;
 import lombok.Builder;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.minjun.gamerecommend.service.review;
+package com.minjun.gamerecommend.service.review.query;
 
 import com.minjun.gamerecommend.global.infra.SteamApiCaller;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class ReviewService {
+public class ReviewSearchService {
 
     private final SteamApiCaller steamApiCaller;
 

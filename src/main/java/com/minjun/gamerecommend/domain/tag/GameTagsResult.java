@@ -1,6 +1,4 @@
-package com.minjun.gamerecommend.service.tag;
-
-import com.minjun.gamerecommend.domain.tag.Tag;
+package com.minjun.gamerecommend.domain.tag;
 
 import java.util.HashMap;
 import java.util.List;

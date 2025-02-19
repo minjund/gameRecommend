@@ -1,10 +1,9 @@
 package com.minjun.gamerecommend.api.recommend;
 
-import com.minjun.gamerecommend.domain.game.RecommendGame;
-import com.minjun.gamerecommend.service.recommend.RecommendDetailInfo;
-import com.minjun.gamerecommend.service.recommend.RecommendGameInfo;
-import com.minjun.gamerecommend.service.recommend.RecommendService;
-import com.minjun.gamerecommend.service.game.process.GameDetailInfo;
+import com.minjun.gamerecommend.service.recommend.query.RecommendGameResult;
+import com.minjun.gamerecommend.service.recommend.query.RecommendDetailCondition;
+import com.minjun.gamerecommend.service.recommend.query.RecommendSearchService;
+import com.minjun.gamerecommend.service.recommend.query.GameDetailResult;
 import com.minjun.gamerecommend.service.user.UserId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,23 +14,23 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/recommend")
 public class RecommendApi {
 
-    private final RecommendService recommendService;
+    private final RecommendSearchService recommendSearchService;
 
     @GetMapping
     public ResponseEntity<RecommendGameResponse> gameRecommendList(@RequestParam String userId){
         UserId loginUserId = UserId.from(userId);
 
-        RecommendGame recommendGameList = recommendService.findGameList(loginUserId);
+        RecommendGameResult recommendGameResultList = recommendSearchService.findGameList(loginUserId);
 
-        return ResponseEntity.ok(RecommendGameResponse.of(recommendGameList));
+        return ResponseEntity.ok(RecommendGameResponse.of(recommendGameResultList));
     }
 
     @GetMapping("/{appId}")
     public ResponseEntity<?>  RecommendGameDetail(@PathVariable String appId){
         //TODO 상세보기 작업 필요
-        RecommendDetailInfo recommendDetailInfo = RecommendDetailInfo.from(appId);
+        RecommendDetailCondition recommendDetailCondition = RecommendDetailCondition.from(appId);
 
-        GameDetailInfo gameDetailInfo = recommendService.findGameDetail();
+        GameDetailResult gameDetailResult = recommendSearchService.findGameDetail();
 
         return ResponseEntity.ok().build();
     }

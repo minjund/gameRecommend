@@ -1,6 +1,5 @@
 package com.minjun.gamerecommend.domain.user;
 
-import com.minjun.gamerecommend.service.user.process.UserSaveCommand;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

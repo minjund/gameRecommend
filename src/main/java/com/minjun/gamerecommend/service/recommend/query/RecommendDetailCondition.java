@@ -1,10 +1,10 @@
-package com.minjun.gamerecommend.service.recommend;
+package com.minjun.gamerecommend.service.recommend.query;
 
 import org.springframework.util.StringUtils;
 
-public record RecommendDetailInfo(AppId appId) {
-    public static RecommendDetailInfo from(String appId) {
-        return new RecommendDetailInfo(AppId.from(appId));
+public record RecommendDetailCondition(AppId appId) {
+    public static RecommendDetailCondition from(String appId) {
+        return new RecommendDetailCondition(AppId.from(appId));
     }
 
     public record AppId(String appId){

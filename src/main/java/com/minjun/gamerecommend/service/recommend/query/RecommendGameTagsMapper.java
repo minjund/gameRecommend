@@ -1,6 +1,6 @@
-package com.minjun.gamerecommend.service.recommend;
+package com.minjun.gamerecommend.service.recommend.query;
 
-import com.minjun.gamerecommend.service.tag.RecommendGameTag;
+import com.minjun.gamerecommend.domain.tag.RecommendGameTag;
 
 import java.util.ArrayList;
 import java.util.List;

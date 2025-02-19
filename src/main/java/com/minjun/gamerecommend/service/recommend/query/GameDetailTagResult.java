@@ -1,4 +1,4 @@
-package com.minjun.gamerecommend.service.game.process;
+package com.minjun.gamerecommend.service.recommend.query;
 
 import com.minjun.gamerecommend.domain.game.GameDetailToTag;
 import lombok.Builder;
@@ -8,33 +8,33 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Builder
-public record GameDetailTagInfo(Integer appId,
-                                String name,
-                                String developer,
-                                String publisher,
-                                String scoreRank,
-                                Integer positive,
-                                Integer negative,
-                                String userScore,
-                                String owners,
-                                Integer averageForever,
-                                Integer averageTwoWeeks,
-                                Integer medianForever,
-                                Integer medianTwoweeks,
-                                String price,
-                                String initialPrice,
-                                String discount,
-                                Integer ccu,
-                                String genre,
-                                LinkedHashMap<String, Integer> tags) {
+public record GameDetailTagResult(Integer appId,
+                                  String name,
+                                  String developer,
+                                  String publisher,
+                                  String scoreRank,
+                                  Integer positive,
+                                  Integer negative,
+                                  String userScore,
+                                  String owners,
+                                  Integer averageForever,
+                                  Integer averageTwoWeeks,
+                                  Integer medianForever,
+                                  Integer medianTwoweeks,
+                                  String price,
+                                  String initialPrice,
+                                  String discount,
+                                  Integer ccu,
+                                  String genre,
+                                  LinkedHashMap<String, Integer> tags) {
 
-    public static List<GameDetailTagInfo> create(List<GameDetailToTag> gameDetailToTagParamList) {
+    public static List<GameDetailTagResult> create(List<GameDetailToTag> gameDetailToTagParamList) {
         return gameDetailToTagParamList.stream()
                 .map(detail -> {
                             Object tagInfo = detail.tags();
                             LinkedHashMap<String, Integer> convertedTags = (tagInfo instanceof LinkedHashMap) ? (LinkedHashMap<String, Integer>) tagInfo : new LinkedHashMap<>();
 
-                            return GameDetailTagInfo.builder()
+                            return GameDetailTagResult.builder()
                                     .appId(detail.appId())
                                     .name(detail.name())
                                     .developer(detail.developer())
