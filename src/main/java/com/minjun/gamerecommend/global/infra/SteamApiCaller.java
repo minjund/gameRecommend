@@ -1,6 +1,6 @@
 package com.minjun.gamerecommend.global.infra;
 
-import com.minjun.gamerecommend.domain.tag.GameTags;
+import com.minjun.gamerecommend.domain.tag.GameTag;
 import com.minjun.gamerecommend.global.infra.dto.*;
 import com.minjun.gamerecommend.global.infra.dto.LoginUserResult.UserResponse;
 import com.minjun.gamerecommend.global.infra.dto.RecentlyPlayGameResult.RecentlyPlayGameResponse;
@@ -8,6 +8,7 @@ import com.minjun.gamerecommend.domain.game.*;
 import com.minjun.gamerecommend.domain.tag.GameDetailToTag;
 import com.minjun.gamerecommend.domain.user.UserDetail;
 import com.minjun.gamerecommend.domain.user.UserId;
+import com.minjun.gamerecommend.service.recommend.query.dto.GameDetailToTagResult;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -39,7 +40,7 @@ public class SteamApiCaller implements SteamGameExternal {
 
 
     @Override
-    public RecentlyPlayGame callRecentlyPlayedGameByUserId(String userId) {
+    public RecentlyGame callRecentlyPlayedGameByUserId(String userId) {
         RestClient restClient = buildSteamApiUrl(SteamApiType.RECENTLY_PLAY_GAME);
 
         RecentlyPlayGameResponse response = Optional.ofNullable(restClient.get()
@@ -54,7 +55,7 @@ public class SteamApiCaller implements SteamGameExternal {
                 .orElseGet(() -> new RecentlyPlayGameResult(new RecentlyPlayGameResponse(0, new ArrayList<>())))
                 .response();
 
-        return new RecentlyPlayGame(response.totalCount(), response.games());
+        return RecentlyGame.from(response.totalCount(), response.games());
     }
 
     @Override
@@ -77,7 +78,7 @@ public class SteamApiCaller implements SteamGameExternal {
 
 
     @Override
-    public GameTags callTagList() {
+    public GameTag callTagList() {
         RestClient restClient = buildSteamApiUrl(SteamApiType.MOST_POPULAR_TAGS);
 
         GameTagListResult.GameTagListResponse result = Optional.ofNullable(
@@ -92,11 +93,11 @@ public class SteamApiCaller implements SteamGameExternal {
                 .orElseThrow(() -> new RuntimeException("게임 태그가 없습니다.")
                 ).response();
 
-        return new GameTags(result.tags());
+        return new GameTag(result.tags());
     }
 
     @Override
-    public RecommendGames callGameListByTag(String gameRecommendCommandToString){
+    public RecommendGame callGameListByTag(String gameRecommendCommandToString){
         RestClient restClient = buildSteamApiUrl(SteamApiType.TAG_TO_GAME);
 
         RecommendGameResult.RecommendGameResponse response = Objects.requireNonNull(Optional.of(restClient.get()
@@ -113,7 +114,7 @@ public class SteamApiCaller implements SteamGameExternal {
                 .orElseThrow(() -> new RuntimeException("게임 정보가 없습니다."))
                 .getBody()).response();
 
-        return RecommendGames.of(response.gameList());
+        return RecommendGame.of(response.gameList());
     }
 
     @Override

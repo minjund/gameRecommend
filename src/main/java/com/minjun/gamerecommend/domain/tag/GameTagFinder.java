@@ -1,6 +1,7 @@
 package com.minjun.gamerecommend.domain.tag;
 
 import com.minjun.gamerecommend.domain.game.SteamGameExternal;
+import com.minjun.gamerecommend.service.recommend.query.dto.GameTagResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,8 +11,8 @@ public class GameTagFinder {
 
     private final SteamGameExternal steamGameExternal;
 
-    public GameTagsResult findTagList() {
-        GameTags gameTagListResponse = steamGameExternal.callTagList();
-        return GameTagsResult.from(gameTagListResponse.tags());
+    public GameTagResult findTagList() {
+        GameTag gameTagListResponse = steamGameExternal.callTagList();
+        return GameTagResult.from(gameTagListResponse.tags());
     }
 }

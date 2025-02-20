@@ -2,11 +2,17 @@ package com.minjun.gamerecommend.domain.game;
 
 import com.minjun.gamerecommend.domain.count.TotalCount;
 
-public record RecentlyGame(TotalCount totalCount, RecommendGames recommendGames) {
-    public static RecentlyGame from(RecentlyPlayGame recentlyPlayGame) {
+import java.util.HashMap;
+import java.util.List;
+
+public record RecentlyGame(TotalCount totalCount, Game game) {
+    public static RecentlyGame from(Integer totalCount, List<HashMap<String, String>> recentlyPlayGame) {
         return new RecentlyGame(
-                TotalCount.of(recentlyPlayGame.totalCount()),
-                RecommendGames.of(recentlyPlayGame.games())
+                TotalCount.of(totalCount),
+                Game.of(recentlyPlayGame)
         );
     }
+
+
+
 }

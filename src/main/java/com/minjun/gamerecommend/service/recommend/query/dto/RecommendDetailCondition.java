@@ -1,4 +1,4 @@
-package com.minjun.gamerecommend.service.recommend.query;
+package com.minjun.gamerecommend.service.recommend.query.dto;
 
 import org.springframework.util.StringUtils;
 

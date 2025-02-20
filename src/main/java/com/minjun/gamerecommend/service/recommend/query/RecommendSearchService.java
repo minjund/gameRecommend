@@ -6,8 +6,11 @@ import com.minjun.gamerecommend.domain.calculation.CalculationHighTag;
 import com.minjun.gamerecommend.domain.calculation.CalculationLowTag;
 import com.minjun.gamerecommend.domain.calculation.CalculationTag;
 import com.minjun.gamerecommend.domain.tag.GameTagFinder;
-import com.minjun.gamerecommend.domain.tag.GameTagsResult;
+import com.minjun.gamerecommend.domain.tag.RecommendGameTags;
+import com.minjun.gamerecommend.service.recommend.query.dto.GameTagResult;
 import com.minjun.gamerecommend.domain.user.UserId;
+import com.minjun.gamerecommend.service.recommend.query.dto.GameDetailResult;
+import com.minjun.gamerecommend.service.recommend.query.dto.GameRecommendCondition;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,22 +21,22 @@ public class RecommendSearchService {
     private final GameTagFinder gameTagFinder;
 
     public RecommendGameResponse findGameList(UserId userId){
-        GameTagsResult gameTagsResult = gameTagFinder.findTagList();
+        GameTagResult gameTagResult = gameTagFinder.findTagList();
 
         //보유 중인 게임
         HaveGame haveGame = gameFinder.findGameHave(userId);
         RecentlyGame recentlyGame = gameFinder.findGameRecentlyPlay(userId);
 
-        RecommendGameTagsMapper recommendGameTagsMapper = gameFinder.findGameDetailToTagByAppId(recentlyGame.recommendGames());
+        RecommendGameTags recommendGameTags = gameFinder.findGameDetailToTagByAppId(recentlyGame.game());
 
-        CalculationTag calculationTag = CalculationTag.fromRecently(recommendGameTagsMapper);
+        CalculationTag calculationTag = CalculationTag.fromRecently(recommendGameTags);
 
-        CalculationHighTag calculationHighTag = CalculationHighTag.of(calculationTag.tag(), gameTagsResult);
-        CalculationLowTag calculationLowTag = CalculationLowTag.of(calculationTag.tag(), gameTagsResult);
+        CalculationHighTag calculationHighTag = CalculationHighTag.of(calculationTag.tag(), gameTagResult);
+        CalculationLowTag calculationLowTag = CalculationLowTag.of(calculationTag.tag(), gameTagResult);
 
         GameRecommendCondition gameRecommendCondition = GameRecommendCondition.create(calculationHighTag, calculationLowTag);
 
-        RecommendGames gameListTagFilter = gameFinder.findGameListTagFilter(gameRecommendCondition);
+        RecommendGame gameListTagFilter = gameFinder.findGameListTagFilter(gameRecommendCondition);
 
         return RecommendGameResponse.of(gameListTagFilter);
     }

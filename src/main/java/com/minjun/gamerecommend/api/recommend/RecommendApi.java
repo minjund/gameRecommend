@@ -1,8 +1,8 @@
 package com.minjun.gamerecommend.api.recommend;
 
-import com.minjun.gamerecommend.service.recommend.query.RecommendDetailCondition;
+import com.minjun.gamerecommend.service.recommend.query.dto.RecommendDetailCondition;
 import com.minjun.gamerecommend.service.recommend.query.RecommendSearchService;
-import com.minjun.gamerecommend.domain.game.GameDetailResult;
+import com.minjun.gamerecommend.service.recommend.query.dto.GameDetailResult;
 import com.minjun.gamerecommend.domain.user.UserId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

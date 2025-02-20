@@ -2,14 +2,13 @@ package com.minjun.gamerecommend.domain.game;
 
 import com.minjun.gamerecommend.domain.tag.GameDetailToTag;
 import com.minjun.gamerecommend.domain.tag.RecommendGameTag;
-import com.minjun.gamerecommend.service.recommend.query.GameRecommendCondition;
-import com.minjun.gamerecommend.service.recommend.query.RecommendGameTagsMapper;
+import com.minjun.gamerecommend.service.recommend.query.dto.GameRecommendCondition;
+import com.minjun.gamerecommend.domain.tag.RecommendGameTags;
 import com.minjun.gamerecommend.domain.user.UserId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import static com.minjun.gamerecommend.global.util.ObjectToJson.convert;
@@ -21,23 +20,22 @@ public class GameFinder {
     private final SteamGameExternal steamGameExternal;
 
     public RecentlyGame findGameRecentlyPlay(UserId userId) {
-        RecentlyPlayGame recentlyPlayGame = steamGameExternal.callRecentlyPlayedGameByUserId(userId.value());
-        return RecentlyGame.from(recentlyPlayGame);
+        return steamGameExternal.callRecentlyPlayedGameByUserId(userId.value());
     }
 
     // fixme : 2초 걸려요..
-    public RecommendGameTagsMapper findGameDetailToTagByAppId(RecommendGames recommendGames) {
+    public RecommendGameTags findGameDetailToTagByAppId(Game recommendGame) {
         List<RecommendGameTag> recommendGameTags = new ArrayList<>();
 
-        recommendGames.findIds().forEach(game -> {
+        recommendGame.findIds().forEach(game -> {
             GameDetailToTag gameDetailToTag = steamGameExternal.callGameDetailToTagByAppId(game.toString());
             recommendGameTags.add(RecommendGameTag.of(gameDetailToTag.appId(), gameDetailToTag.tags()));
         });
 
-        return RecommendGameTagsMapper.of(recommendGameTags);
+        return RecommendGameTags.of(recommendGameTags);
     }
 
-    public RecommendGames findGameListTagFilter(GameRecommendCondition gameRecommendCondition) {
+    public RecommendGame findGameListTagFilter(GameRecommendCondition gameRecommendCondition) {
         String gameRecommendCommandToString = convert(gameRecommendCondition);
         return steamGameExternal.callGameListByTag(gameRecommendCommandToString);
     }
