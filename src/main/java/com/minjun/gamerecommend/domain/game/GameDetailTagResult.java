@@ -27,8 +27,8 @@ public record GameDetailTagResult(Integer appId,
                                   String genre,
                                   LinkedHashMap<String, Integer> tags) {
 
-    public static List<GameDetailTagResult> create(List<GameDetailToTag> gameDetailToTagParamList) {
-        return gameDetailToTagParamList.stream()
+    public static List<GameDetailTagResult> create(List<GameDetailToTagResult> gameDetailToTagResultParamList) {
+        return gameDetailToTagResultParamList.stream()
                 .map(detail -> {
                             Object tagInfo = detail.tags();
                             LinkedHashMap<String, Integer> convertedTags = (tagInfo instanceof LinkedHashMap) ? (LinkedHashMap<String, Integer>) tagInfo : new LinkedHashMap<>();

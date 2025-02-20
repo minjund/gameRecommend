@@ -1,8 +1,12 @@
 package com.minjun.gamerecommend.global.infra;
 
-import com.minjun.gamerecommend.domain.game.*;
-import com.minjun.gamerecommend.domain.user.UserResult;
+import com.minjun.gamerecommend.domain.tag.GameTags;
 import com.minjun.gamerecommend.global.infra.dto.*;
+import com.minjun.gamerecommend.global.infra.dto.LoginUserResult.UserResponse;
+import com.minjun.gamerecommend.global.infra.dto.RecentlyPlayGameResult.RecentlyPlayGameResponse;
+import com.minjun.gamerecommend.domain.game.*;
+import com.minjun.gamerecommend.domain.tag.GameDetailToTag;
+import com.minjun.gamerecommend.domain.user.UserDetail;
 import com.minjun.gamerecommend.domain.user.UserId;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -15,10 +19,10 @@ public class SteamApiCaller implements SteamGameExternal {
     private static final String steamApiKey = "489DB338ED4D87FA560F11BC5B4B5986";
 
     @Override
-    public UserResult callSteamLoginDetail(String userId) {
+    public UserDetail callSteamLoginDetail(String userId) {
         RestClient restClient = buildSteamApiUrl(SteamApiType.LOGIN_DETAIL);
 
-        return Optional.ofNullable(restClient.get()
+        UserResponse response = Optional.ofNullable(restClient.get()
                         .uri(uriBuilder -> uriBuilder
                                 .path("/")
                                 .queryParam("key", steamApiKey)
@@ -27,8 +31,10 @@ public class SteamApiCaller implements SteamGameExternal {
                         .header("Content-Type", "application/json")
                         .retrieve()
                         .toEntity(LoginUserResult.class).getBody())
-                .orElseGet(() -> new LoginUserResult(new UserResult(new ArrayList<>())))
+                .orElseGet(() -> new LoginUserResult(new UserResponse(new ArrayList<>())))
                 .response();
+
+        return new UserDetail(response.players());
     }
 
 
@@ -36,24 +42,26 @@ public class SteamApiCaller implements SteamGameExternal {
     public RecentlyPlayGame callRecentlyPlayedGameByUserId(String userId) {
         RestClient restClient = buildSteamApiUrl(SteamApiType.RECENTLY_PLAY_GAME);
 
-        return Optional.ofNullable(restClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/")
-                        .queryParam("key", steamApiKey)
-                        .queryParam("steamid", userId)
-                        .build())
-                .header("Content-Type", "application/json")
-                .retrieve()
-                .toEntity(RecentlyPlayGameResult.class).getBody())
-                .orElseGet(() -> new RecentlyPlayGameResult(new RecentlyPlayGame(0, new ArrayList<>())))
+        RecentlyPlayGameResponse response = Optional.ofNullable(restClient.get()
+                        .uri(uriBuilder -> uriBuilder
+                                .path("/")
+                                .queryParam("key", steamApiKey)
+                                .queryParam("steamid", userId)
+                                .build())
+                        .header("Content-Type", "application/json")
+                        .retrieve()
+                        .toEntity(RecentlyPlayGameResult.class).getBody())
+                .orElseGet(() -> new RecentlyPlayGameResult(new RecentlyPlayGameResponse(0, new ArrayList<>())))
                 .response();
+
+        return new RecentlyPlayGame(response.totalCount(), response.games());
     }
 
     @Override
     public GameDetailToTag callGameDetailToTagByAppId(String appId){
         RestClient restClient = buildSteamApiUrl(SteamApiType.GAME_TO_TAG);
 
-        return restClient.get()
+        GameDetailToTagResult result = Optional.ofNullable(restClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/")
                         .queryParam("request", "appdetails")
@@ -61,30 +69,37 @@ public class SteamApiCaller implements SteamGameExternal {
                         .build())
                 .header("Content-Type", "application/json")
                 .retrieve()
-                .toEntity(GameDetailToTag.class).getBody();
+                .toEntity(GameDetailToTagResult.class).getBody())
+                .orElseGet(GameDetailToTagResult::empty);
+
+        return GameDetailToTag.of(result.appId(), result.tags());
     }
 
 
     @Override
-    public GameTagList callTagList() {
+    public GameTags callTagList() {
         RestClient restClient = buildSteamApiUrl(SteamApiType.MOST_POPULAR_TAGS);
 
-        return Optional.ofNullable(restClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/")
-                        .queryParam("key", steamApiKey)
-                        .build())
-                .header("Content-Type", "application/json")
-                .retrieve()
-                .toEntity(GameTagListResult.class).getBody()).orElseThrow(() -> new RuntimeException("게임 태그가 없습니다."))
-                .response();
+        GameTagListResult.GameTagListResponse result = Optional.ofNullable(
+                restClient.get()
+                        .uri(uriBuilder -> uriBuilder
+                                .path("/")
+                                .queryParam("key", steamApiKey)
+                                .build())
+                        .header("Content-Type", "application/json")
+                        .retrieve()
+                        .toEntity(GameTagListResult.class).getBody())
+                .orElseThrow(() -> new RuntimeException("게임 태그가 없습니다.")
+                ).response();
+
+        return new GameTags(result.tags());
     }
 
     @Override
-    public RecommendGameResponse callGameListByTag(String gameRecommendCommandToString){
+    public RecommendGames callGameListByTag(String gameRecommendCommandToString){
         RestClient restClient = buildSteamApiUrl(SteamApiType.TAG_TO_GAME);
 
-        return Objects.requireNonNull(Optional.of(restClient.get()
+        RecommendGameResult.RecommendGameResponse response = Objects.requireNonNull(Optional.of(restClient.get()
                         .uri(uriBuilder ->
                                 UriComponentsBuilder
                                         .fromPath("/IStoreQueryService/Query/v1/") // 기본 URI 추가
@@ -97,6 +112,8 @@ public class SteamApiCaller implements SteamGameExternal {
                         .toEntity(RecommendGameResult.class))
                 .orElseThrow(() -> new RuntimeException("게임 정보가 없습니다."))
                 .getBody()).response();
+
+        return RecommendGames.of(response.gameList());
     }
 
     @Override

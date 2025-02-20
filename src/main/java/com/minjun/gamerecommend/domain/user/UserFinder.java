@@ -13,8 +13,8 @@ public class UserFinder {
     private final SteamApiCaller steamApiCaller;
 
     public HashMap<String, Object> findUserDetail(String userId) {
-        UserResult userResult = steamApiCaller.callSteamLoginDetail(userId);
+        UserDetail userResponse = steamApiCaller.callSteamLoginDetail(userId);
 
-        return userResult.players().getFirst();
+        return userResponse.players().getFirst();
     }
 }

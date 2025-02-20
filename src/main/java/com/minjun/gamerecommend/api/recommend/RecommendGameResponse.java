@@ -1,9 +1,9 @@
 package com.minjun.gamerecommend.api.recommend;
 
+import com.minjun.gamerecommend.domain.game.RecommendGames;
 
-public record RecommendGameResponse(
-        com.minjun.gamerecommend.domain.game.RecommendGameResponse recommendGameResponse) {
-    public static RecommendGameResponse of(com.minjun.gamerecommend.domain.game.RecommendGameResponse recommendGameResponse) {
+public record RecommendGameResponse(RecommendGames recommendGameResponse) {
+    public static RecommendGameResponse of(RecommendGames recommendGameResponse) {
         return new RecommendGameResponse(recommendGameResponse);
     }
 }

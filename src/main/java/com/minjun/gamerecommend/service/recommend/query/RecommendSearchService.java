@@ -1,12 +1,12 @@
 package com.minjun.gamerecommend.service.recommend.query;
 
+import com.minjun.gamerecommend.api.recommend.RecommendGameResponse;
 import com.minjun.gamerecommend.domain.game.*;
 import com.minjun.gamerecommend.domain.calculation.CalculationHighTag;
 import com.minjun.gamerecommend.domain.calculation.CalculationLowTag;
 import com.minjun.gamerecommend.domain.calculation.CalculationTag;
 import com.minjun.gamerecommend.domain.tag.GameTagFinder;
 import com.minjun.gamerecommend.domain.tag.GameTagsResult;
-import com.minjun.gamerecommend.domain.game.RecommendGameResponse;
 import com.minjun.gamerecommend.domain.user.UserId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,7 +33,9 @@ public class RecommendSearchService {
 
         GameRecommendCondition gameRecommendCondition = GameRecommendCondition.create(calculationHighTag, calculationLowTag);
 
-        return gameFinder.findGameListTagFilter(gameRecommendCondition);
+        RecommendGames gameListTagFilter = gameFinder.findGameListTagFilter(gameRecommendCondition);
+
+        return RecommendGameResponse.of(gameListTagFilter);
     }
 
 

@@ -1,20 +1,22 @@
 package com.minjun.gamerecommend.domain.game;
 
-import com.minjun.gamerecommend.domain.user.UserResult;
+import com.minjun.gamerecommend.domain.tag.GameDetailToTag;
+import com.minjun.gamerecommend.domain.tag.GameTags;
+import com.minjun.gamerecommend.domain.user.UserDetail;
 import com.minjun.gamerecommend.domain.user.UserId;
 
 import java.util.Map;
 
 public interface SteamGameExternal {
-    UserResult callSteamLoginDetail(String userId);
+    UserDetail callSteamLoginDetail(String userId);
 
     RecentlyPlayGame callRecentlyPlayedGameByUserId(String userId);
 
     GameDetailToTag callGameDetailToTagByAppId(String appId);
 
-    GameTagList callTagList();
+    GameTags callTagList();
 
-    RecommendGameResponse callGameListByTag(String gameRecommendCommandToString);
+    RecommendGames callGameListByTag(String gameRecommendCommandToString);
 
     GameDetail callGameDetailByAppId(Integer appId);
 

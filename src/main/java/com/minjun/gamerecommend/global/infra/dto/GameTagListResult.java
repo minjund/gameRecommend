@@ -1,6 +1,15 @@
 package com.minjun.gamerecommend.global.infra.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.minjun.gamerecommend.domain.game.GameTagList;
 
-public record GameTagListResult(@JsonProperty("response") GameTagList response) { }
+import java.util.HashMap;
+import java.util.List;
+
+public record GameTagListResult(
+        @JsonProperty("response")
+        GameTagListResponse response
+) {
+        public record GameTagListResponse(@JsonProperty("tags") List<HashMap<String , String>> tags) {
+
+        }
+}

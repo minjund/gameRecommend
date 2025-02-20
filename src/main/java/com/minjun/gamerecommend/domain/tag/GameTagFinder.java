@@ -1,7 +1,6 @@
 package com.minjun.gamerecommend.domain.tag;
 
-import com.minjun.gamerecommend.global.infra.SteamApiCaller;
-import com.minjun.gamerecommend.domain.game.GameTagList;
+import com.minjun.gamerecommend.domain.game.SteamGameExternal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -9,10 +8,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class GameTagFinder {
 
-    private final SteamApiCaller steamApiCaller;
+    private final SteamGameExternal steamGameExternal;
 
     public GameTagsResult findTagList() {
-        GameTagList gameTagList = steamApiCaller.callTagList();
-        return GameTagsResult.from(gameTagList.tags());
+        GameTags gameTagListResponse = steamGameExternal.callTagList();
+        return GameTagsResult.from(gameTagListResponse.tags());
     }
 }

@@ -1,6 +1,5 @@
 package com.minjun.gamerecommend.api.recommend;
 
-import com.minjun.gamerecommend.domain.game.RecommendGameResponse;
 import com.minjun.gamerecommend.service.recommend.query.RecommendDetailCondition;
 import com.minjun.gamerecommend.service.recommend.query.RecommendSearchService;
 import com.minjun.gamerecommend.domain.game.GameDetailResult;
@@ -17,12 +16,12 @@ public class RecommendApi {
     private final RecommendSearchService recommendSearchService;
 
     @GetMapping
-    public ResponseEntity<com.minjun.gamerecommend.api.recommend.RecommendGameResponse> gameRecommendList(@RequestParam String userId){
+    public ResponseEntity<RecommendGameResponse> gameRecommendList(@RequestParam String userId){
         UserId loginUserId = UserId.from(userId);
 
         RecommendGameResponse recommendGameResponseList = recommendSearchService.findGameList(loginUserId);
 
-        return ResponseEntity.ok(com.minjun.gamerecommend.api.recommend.RecommendGameResponse.of(recommendGameResponseList));
+        return ResponseEntity.ok(recommendGameResponseList);
     }
 
     @GetMapping("/{appId}")
