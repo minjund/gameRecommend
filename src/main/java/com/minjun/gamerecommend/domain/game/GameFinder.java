@@ -19,15 +19,26 @@ public class GameFinder {
 
     private final SteamGameExternal steamGameExternal;
 
-    public RecentlyGame findGameRecentlyPlay(UserId userId) {
+
+    public Game findUserGame(UserId userId) {
+        HaveGame gameHave = findGameHave(userId);
+        RecentlyGame recentlyGame = findGameRecentlyPlay(userId);
+
+        Game game = gameHave.game();
+        game.add(recentlyGame.game());
+
+        return game;
+    }
+
+    private RecentlyGame findGameRecentlyPlay(UserId userId) {
         return steamGameExternal.callRecentlyPlayedGameByUserId(userId.value());
     }
 
     // fixme : 2초 걸려요..
-    public RecommendGameTags findGameDetailToTagByAppId(Game recommendGame) {
+    public RecommendGameTags findGameDetailToTagByAppId(Game games) {
         List<RecommendGameTag> recommendGameTags = new ArrayList<>();
 
-        recommendGame.findIds().forEach(game -> {
+        games.findIds().forEach(game -> {
             GameDetailToTag gameDetailToTag = steamGameExternal.callGameDetailToTagByAppId(game.toString());
             recommendGameTags.add(RecommendGameTag.of(gameDetailToTag.appId(), gameDetailToTag.tags()));
         });
@@ -55,7 +66,7 @@ public class GameFinder {
 //        return gameDetailToTagParamList;
 //    }
 
-    public HaveGame findGameHave(UserId userId) {
+    private HaveGame findGameHave(UserId userId) {
         return steamGameExternal.callHaveGameList(userId);
     }
 }

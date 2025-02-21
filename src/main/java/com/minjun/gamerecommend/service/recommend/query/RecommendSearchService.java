@@ -23,11 +23,8 @@ public class RecommendSearchService {
     public RecommendGameResponse findGameList(UserId userId){
         GameTagResult gameTagResult = gameTagFinder.findTagList();
 
-        //보유 중인 게임
-        HaveGame haveGame = gameFinder.findGameHave(userId);
-        RecentlyGame recentlyGame = gameFinder.findGameRecentlyPlay(userId);
-
-        RecommendGameTags recommendGameTags = gameFinder.findGameDetailToTagByAppId(recentlyGame.game());
+        Game game = gameFinder.findUserGame(userId);
+        RecommendGameTags recommendGameTags = gameFinder.findGameDetailToTagByAppId(game);
 
         CalculationTag calculationTag = CalculationTag.fromRecently(recommendGameTags);
 
