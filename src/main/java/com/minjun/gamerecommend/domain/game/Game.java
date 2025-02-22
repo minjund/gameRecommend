@@ -5,20 +5,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public record Game(HashMap<String, String> games) {
-    public static Game of(List<HashMap<String, String>> games) {
-        return new Game(games.getFirst());
+public record Game(List<HashMap<String, Object>> games) {
+    public Game {
+        if(games.isEmpty()){
+            throw new IllegalArgumentException("게임을 찾을 수 없습니다.");
+        }
     }
 
-    public List<Object> findIds(){
-        return games.entrySet().stream()
-                .filter(e-> e.getKey().equals("appId"))
-                .map(Map.Entry::getValue)
+    public static Game of(List<HashMap<String, Object>> games) {
+        return new Game(games);
+    }
+
+    public List<Object> findIds() {
+        return games.stream()
+                .filter(game -> game.containsKey("appid"))
+                .map(game -> game.get("appid"))
                 .collect(Collectors.toList());
     }
 
     public Game add(Game addGames){
-        games.putAll(addGames.games);
+        games.addAll(addGames.games());
         return this;
     }
 }

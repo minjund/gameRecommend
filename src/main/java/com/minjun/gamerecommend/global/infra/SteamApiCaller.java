@@ -2,12 +2,14 @@ package com.minjun.gamerecommend.global.infra;
 
 import com.minjun.gamerecommend.domain.tag.GameTag;
 import com.minjun.gamerecommend.global.infra.dto.*;
+import com.minjun.gamerecommend.global.infra.dto.HaveGameResult.HaveGameResponse;
 import com.minjun.gamerecommend.global.infra.dto.LoginUserResult.UserResponse;
 import com.minjun.gamerecommend.global.infra.dto.RecentlyPlayGameResult.RecentlyPlayGameResponse;
 import com.minjun.gamerecommend.domain.game.*;
 import com.minjun.gamerecommend.domain.tag.GameDetailToTag;
 import com.minjun.gamerecommend.domain.user.UserDetail;
 import com.minjun.gamerecommend.domain.user.UserId;
+import com.minjun.gamerecommend.global.infra.dto.RecommendGameResult.RecommendGameResponse;
 import com.minjun.gamerecommend.service.recommend.query.dto.GameDetailToTagResult;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -100,7 +102,7 @@ public class SteamApiCaller implements SteamGameExternal {
     public RecommendGame callGameListByTag(String gameRecommendCommandToString){
         RestClient restClient = buildSteamApiUrl(SteamApiType.TAG_TO_GAME);
 
-        RecommendGameResult.RecommendGameResponse response = Objects.requireNonNull(Optional.of(restClient.get()
+        RecommendGameResponse response = Objects.requireNonNull(Optional.of(restClient.get()
                         .uri(uriBuilder ->
                                 UriComponentsBuilder
                                         .fromPath("/IStoreQueryService/Query/v1/") // 기본 URI 추가
@@ -153,10 +155,11 @@ public class SteamApiCaller implements SteamGameExternal {
     public HaveGame callHaveGameList(UserId userId) {
         RestClient restClient = buildSteamApiUrl(SteamApiType.HAVE_GAME);
 
-        HaveGameResult haveGameResult = Optional.ofNullable(restClient.get()
+        HaveGameResponse haveGameResponse = Optional.ofNullable(restClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/")
                         .queryParam("key", steamApiKey)
+                        .queryParam("steamid", userId.value())
                         .queryParam("include_appinfo", true)
                         .queryParam("language", "en")
                         .queryParam("include_extended_appinfo", true)
@@ -164,10 +167,10 @@ public class SteamApiCaller implements SteamGameExternal {
                 .header("Content-Type", "application/json")
                 .retrieve()
                 .toEntity(HaveGameResult.class)
-                .getBody()
+                .getBody().response()
         ).orElseThrow(() -> new RuntimeException("게임 정보가 없습니다."));
 
-        return haveGameResult.response();
+        return HaveGame.from(haveGameResponse.totalCount(), haveGameResponse.games());
     }
 
     private RestClient buildSteamApiUrl(SteamApiType steamApiType) {

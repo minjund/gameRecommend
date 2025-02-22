@@ -16,25 +16,20 @@ import static com.minjun.gamerecommend.global.util.ObjectToJson.convert;
 @Service
 @RequiredArgsConstructor
 public class GameFinder {
-
     private final SteamGameExternal steamGameExternal;
-
 
     public Game findUserGame(UserId userId) {
         HaveGame gameHave = findGameHave(userId);
         RecentlyGame recentlyGame = findGameRecentlyPlay(userId);
 
-        Game game = gameHave.game();
-        game.add(recentlyGame.game());
-
-        return game;
+        return gameHave.game().add(recentlyGame.game());
     }
 
     private RecentlyGame findGameRecentlyPlay(UserId userId) {
         return steamGameExternal.callRecentlyPlayedGameByUserId(userId.value());
     }
 
-    // fixme : 2초 걸려요..
+    // fixme : 8초 걸려요..
     public RecommendGameTags findGameDetailToTagByAppId(Game games) {
         List<RecommendGameTag> recommendGameTags = new ArrayList<>();
 

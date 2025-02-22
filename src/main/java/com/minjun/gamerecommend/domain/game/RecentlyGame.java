@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public record RecentlyGame(TotalCount totalCount, Game game) {
-    public static RecentlyGame from(Integer totalCount, List<HashMap<String, String>> recentlyPlayGame) {
+    public static RecentlyGame from(Integer totalCount, List<HashMap<String, Object>> recentlyPlayGame) {
         return new RecentlyGame(
                 TotalCount.of(totalCount),
                 Game.of(recentlyPlayGame)

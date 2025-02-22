@@ -10,7 +10,7 @@ public record RecentlyPlayGameResult(@JsonProperty("response") RecentlyPlayGameR
     public record RecentlyPlayGameResponse(@JsonProperty("total_count")
                                    Integer totalCount,
                                            @JsonProperty("games")
-                                   List<HashMap<String,String>> games) {
+                                   List<HashMap<String,Object>> games) {
 
     }
 }
