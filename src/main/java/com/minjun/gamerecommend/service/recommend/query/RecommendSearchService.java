@@ -26,7 +26,7 @@ public class RecommendSearchService {
         Game game = gameFinder.findUserGame(userId);
         RecommendGameTags recommendGameTags = gameFinder.findGameDetailToTagByAppId(game);
 
-        CalculationTag calculationTag = CalculationTag.fromRecently(recommendGameTags);
+        CalculationTag calculationTag = CalculationTag.from(recommendGameTags);
         CalculationHighTag calculationHighTag = CalculationHighTag.of(calculationTag.tag(), gameTagResult);
         CalculationLowTag calculationLowTag = CalculationLowTag.of(calculationTag.tag(), gameTagResult);
 
