@@ -22,11 +22,7 @@ public class GameFinder {
         HaveGame gameHave = findGameHave(userId);
         RecentlyGame recentlyGame = findGameRecentlyPlay(userId);
 
-        return gameHave.game().add(recentlyGame.game());
-    }
-
-    private RecentlyGame findGameRecentlyPlay(UserId userId) {
-        return steamGameExternal.callRecentlyPlayedGameByUserId(userId.value());
+        return recentlyGame.game();
     }
 
     // fixme : 8초 걸려요..
@@ -46,22 +42,11 @@ public class GameFinder {
         return steamGameExternal.callGameListByTag(gameRecommendCommandToString);
     }
 
-//    public List<GameDetailResult> findGameDetailByAppId(RecommendGameResponse gameDetailList) {
-//        List<GameDetailResult> gameDetailToTagParamList = new ArrayList<>();
-//
-//        gameDetailList.gameList().forEach(game -> {
-//            GameDetail appid = steamGameExternal.callGameDetailByAppId((Integer) game.get("appid"));
-//            if (appid.gameDetail().isEmpty()) {
-//                return;
-//            }
-//            HashMap<String, Object> stringObjectHashMap = (HashMap<String, Object>) appid.gameDetail().get(String.valueOf(game.get("appid"))).get("data");
-//            gameDetailToTagParamList.add(GameDetailResult.from(stringObjectHashMap));
-//        });
-//
-//        return gameDetailToTagParamList;
-//    }
-
     private HaveGame findGameHave(UserId userId) {
         return steamGameExternal.callHaveGameList(userId);
+    }
+
+    private RecentlyGame findGameRecentlyPlay(UserId userId) {
+        return steamGameExternal.callRecentlyPlayedGameByUserId(userId.value());
     }
 }
