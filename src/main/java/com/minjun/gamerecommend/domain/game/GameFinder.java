@@ -18,18 +18,18 @@ import static com.minjun.gamerecommend.global.util.ObjectToJson.convert;
 public class GameFinder {
     private final SteamGameExternal steamGameExternal;
 
-    public Game findUserGame(UserId userId) {
+    public Games findUserGame(UserId userId) {
         HaveGame gameHave = findGameHave(userId);
         RecentlyGame recentlyGame = findGameRecentlyPlay(userId);
 
-        return recentlyGame.game();
+        return recentlyGame.games();
     }
 
     // fixme : 8초 걸려요..
-    public RecommendGameTags findGameDetailToTagByAppId(Game games) {
+    public RecommendGameTags findGameDetailToTagByAppId(Games games) {
         List<RecommendGameTag> recommendGameTags = new ArrayList<>();
 
-        games.findIds().forEach(game -> {
+        games.findAllIds().forEach(game -> {
             GameDetailToTag gameDetailToTag = steamGameExternal.callGameDetailToTagByAppId(game.toString());
             recommendGameTags.add(RecommendGameTag.of(gameDetailToTag.appId(), gameDetailToTag.tags()));
         });
