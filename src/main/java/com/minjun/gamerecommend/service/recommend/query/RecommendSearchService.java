@@ -27,10 +27,12 @@ public class RecommendSearchService {
         RecommendGameTags recommendGameTags = gameFinder.findGameDetailToTagByAppId(games);
 
         CalculationTag calculationTag = CalculationTag.from(recommendGameTags);
-        CalculationHighTag calculationHighTag = CalculationHighTag.of(calculationTag.tag(), gameTagResult);
-        CalculationLowTag calculationLowTag = CalculationLowTag.of(calculationTag.tag(), gameTagResult);
 
-        GameRecommendCondition gameRecommendCondition = GameRecommendCondition.create(calculationHighTag, calculationLowTag);
+        GameRecommendCondition gameRecommendCondition = GameRecommendCondition.create(
+                calculationTag.highTag(gameTagResult),
+                calculationTag.lowTag(gameTagResult)
+        );
+
         RecommendGame gameListTagFilter = gameFinder.findGameListTagFilter(gameRecommendCondition);
 
         return RecommendGameResponse.from(gameListTagFilter);

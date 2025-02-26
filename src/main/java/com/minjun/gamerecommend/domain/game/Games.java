@@ -1,5 +1,6 @@
 package com.minjun.gamerecommend.domain.game;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,8 +10,6 @@ public record Games(List<HashMap<String, Object>> games) {
         if(games.isEmpty()){
             throw new IllegalArgumentException("게임을 찾을 수 없습니다.");
         }
-
-        games = List.copyOf(games);
     }
 
     public static Games of(List<HashMap<String, Object>> games) {
@@ -25,7 +24,9 @@ public record Games(List<HashMap<String, Object>> games) {
     }
 
     public Games combine(Games addGames){
-        games.addAll(addGames.games());
-        return this;
+        List<HashMap<String, Object>> combinedGames = new ArrayList<>(games);
+        combinedGames.addAll(addGames.games());
+
+        return new Games(combinedGames);
     }
 }
