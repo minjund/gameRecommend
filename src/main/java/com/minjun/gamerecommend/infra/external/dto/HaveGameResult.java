@@ -1,4 +1,4 @@
-package com.minjun.gamerecommend.global.infra.dto;
+package com.minjun.gamerecommend.infra.external.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minjun.gamerecommend.domain.game.HaveGame;

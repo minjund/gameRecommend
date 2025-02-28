@@ -16,11 +16,11 @@ public record CalculationTag(Tag tag) {
     }
 
     public CalculationHighTag highTag(GameTagResult gameTagResult) {
-        return CalculationHighTag.of(tag, gameTagResult);
+        return CalculationHighTag.from(tag, gameTagResult);
     }
 
     public CalculationLowTag lowTag(GameTagResult gameTagResult) {
-        return CalculationLowTag.of(tag, gameTagResult);
+        return CalculationLowTag.from(tag, gameTagResult);
     }
 
     private static HashMap<String, Integer> calculationRecommendScore(RecommendGameTags recommendGameTags, Score score) {

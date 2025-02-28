@@ -1,15 +1,13 @@
-package com.minjun.gamerecommend.global.infra;
+package com.minjun.gamerecommend.infra.external;
 
 import com.minjun.gamerecommend.domain.tag.GameTag;
-import com.minjun.gamerecommend.global.infra.dto.*;
-import com.minjun.gamerecommend.global.infra.dto.HaveGameResult.HaveGameResponse;
-import com.minjun.gamerecommend.global.infra.dto.LoginUserResult.UserResponse;
-import com.minjun.gamerecommend.global.infra.dto.RecentlyPlayGameResult.RecentlyPlayGameResponse;
+import com.minjun.gamerecommend.infra.external.dto.*;
+import com.minjun.gamerecommend.infra.external.dto.LoginUserResult.UserResponse;
 import com.minjun.gamerecommend.domain.game.*;
 import com.minjun.gamerecommend.domain.tag.GameDetailToTag;
 import com.minjun.gamerecommend.domain.user.UserDetail;
 import com.minjun.gamerecommend.domain.user.UserId;
-import com.minjun.gamerecommend.global.infra.dto.RecommendGameResult.RecommendGameResponse;
+import com.minjun.gamerecommend.infra.external.dto.RecommendGameResult.RecommendGameResponse;
 import com.minjun.gamerecommend.service.recommend.query.dto.GameDetailToTagResult;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -45,7 +43,7 @@ public class SteamApiCaller implements SteamGameExternal {
     public RecentlyGame callRecentlyPlayedGameByUserId(String userId) {
         RestClient restClient = buildSteamApiUrl(SteamApiType.RECENTLY_PLAY_GAME);
 
-        RecentlyPlayGameResponse response = Optional.ofNullable(restClient.get()
+        RecentlyPlayGameResult.RecentlyPlayGameResponse response = Optional.ofNullable(restClient.get()
                         .uri(uriBuilder -> uriBuilder
                                 .path("/")
                                 .queryParam("key", steamApiKey)
@@ -54,7 +52,7 @@ public class SteamApiCaller implements SteamGameExternal {
                         .header("Content-Type", "application/json")
                         .retrieve()
                         .toEntity(RecentlyPlayGameResult.class).getBody())
-                .orElseGet(() -> new RecentlyPlayGameResult(new RecentlyPlayGameResponse(0, new ArrayList<>())))
+                .orElseGet(() -> new RecentlyPlayGameResult(new RecentlyPlayGameResult.RecentlyPlayGameResponse(0, new ArrayList<>())))
                 .response();
 
         return RecentlyGame.from(response.totalCount(), response.games());
@@ -155,7 +153,7 @@ public class SteamApiCaller implements SteamGameExternal {
     public HaveGame callHaveGameList(UserId userId) {
         RestClient restClient = buildSteamApiUrl(SteamApiType.HAVE_GAME);
 
-        HaveGameResponse haveGameResponse = Optional.ofNullable(restClient.get()
+        HaveGameResult.HaveGameResponse haveGameResponse = Optional.ofNullable(restClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/")
                         .queryParam("key", steamApiKey)

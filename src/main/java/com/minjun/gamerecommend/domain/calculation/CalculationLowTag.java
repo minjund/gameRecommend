@@ -10,7 +10,7 @@ import static com.minjun.gamerecommend.global.util.Extractor.extractMinValues;
 
 public record CalculationLowTag(List<String> lowTagList) {
 
-    public static CalculationLowTag of(Tag tag, GameTagResult gameTagResult) {
+    public static CalculationLowTag from(Tag tag, GameTagResult gameTagResult) {
         List<String> minValues = extractMinValues(tag.map());
         List<String> tagIds = new ArrayList<>();
 

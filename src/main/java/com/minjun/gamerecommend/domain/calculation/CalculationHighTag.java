@@ -10,7 +10,7 @@ import static com.minjun.gamerecommend.global.util.Extractor.extractMaxValues;
 
 public record CalculationHighTag(List<String> higtTagList) {
 
-    public static CalculationHighTag of(Tag tag, GameTagResult gameTagResult) {
+    public static CalculationHighTag from(Tag tag, GameTagResult gameTagResult) {
         List<String> highestTag = extractMaxValues(tag.map());
         List<String> tagIds = new ArrayList<>();
 

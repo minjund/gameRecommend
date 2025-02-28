@@ -1,4 +1,4 @@
-package com.minjun.gamerecommend.global.infra;
+package com.minjun.gamerecommend.infra.external;
 
 import lombok.Getter;
 
